@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Liquify Key</title>
+  <style>
+    body {
+      background: #0f0f14;
+      color: #e0e0e0;
+      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h2 { color: #7ab4ff; }
+    #key {
+      background: #1a1a24;
+      padding: 16px 32px;
+      border-radius: 8px;
+      font-size: 1.4rem;
+      border: 1px solid #333;
+      letter-spacing: 2px;
+      margin: 16px 0;
+    }
+    button {
+      background: #3a7acd;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover { background: #4a8aed; }
+  </style>
+</head>
+<body>
+  <h2>🔑 Your Liquify Key</h2>
+  <p>Copy this key and paste it in-game:</p>
+  <div id="key">Loading...</div>
+  <button onclick="copyKey()">Copy Key</button>
+
+  <script>
+    // 4-layer encrypted keys
+    // Layer 1: XOR with salt
+    // Layer 2: Character shift +7
+    // Layer 3: Base64
+    // Layer 4: Reversed + Base64 again
+    const enc = [
+      "aFlVRGZ4ekROVmtGK2dRWjVJeFQ3c2xKZXd3RWU0eEI=",
+      "bW9DSGI5akh0WVNVdkFTTFVvbEUxc2xKZXd3RWU0eEI=",
+      "ZWt6RGNsVEp1b3dUOU1pTVNjVkdBdGxKZXd3RWU0eEI=",
+      "UElqSWxGekNBQkJTRFJ5TFhrVkR4c2xKZXd3RWU0eEI=",
+      "VllVSGdSUlJJWXpFZDVRS2ZnVklGdGxKZXd3RWU0eEI=",
+      "WGtTQ2tWekk2RWhWekF5SmJ3MUdFdGxKZXd3RWU0eEI=",
+      "ZDRDRWlWMEZEbEFWN2dnTGhZR0Q0c2xKZXd3RWU0eEI=",
+      "bU1FSmc1akh1VUJTNklDTVZzVkNyc2xKZXd3RWU0eEI=",
+      "ZXNpQ2taRUZvd1JVc1V5T2tjMUlCdGxKZXd3RWU0eEI=",
+      "WG96SWZ4akNuMHhVMXdnUWxVbUkwc2xKZXd3RWU0eEI="
+    ];
+
+    const SHIFT = 7;
+    const SALT  = "liquify";
+
+    function decrypt(str) {
+      // Step 1: Base64 decode
+      let s = atob(str);
+      // Step 2: Reverse
+      s = s.split("").reverse().join("");
+      // Step 3: Base64 decode again
+      s = atob(s);
+      // Step 4: Un-shift by 7
+      let unshifted = "";
+      for (let i = 0; i < s.length; i++) {
+        unshifted += String.fromCharCode(s.charCodeAt(i) - SHIFT);
+      }
+      // Step 5: XOR with salt to get original key
+      let result = "";
+      for (let i = 0; i < unshifted.length; i++) {
+        result += String.fromCharCode(
+          unshifted.charCodeAt(i) ^ SALT.charCodeAt(i % SALT.length)
+        );
+      }
+      return result;
+    }
+
+    // Pick random key, decrypt and show
+    const chosen = decrypt(enc[Math.floor(Math.random() * enc.length)]);
+    document.getElementById("key").innerText = chosen;
+
+    function copyKey() {
+      navigator.clipboard.writeText(chosen);
+      document.querySelector("button").innerText = "✓ Copied!";
+      setTimeout(() => {
+        document.querySelector("button").innerText = "Copy Key";
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
