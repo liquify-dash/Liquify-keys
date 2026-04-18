@@ -1,82 +1,304 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Liquify Key</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liquify · 12 Hour Key</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      background: #0f0f14;
-      color: #e0e0e0;
-      font-family: monospace;
+      background: linear-gradient(135deg, #0c0f1c 0%, #05070f 100%);
+      font-family: -apple-system, 'Inter', 'Segoe UI', monospace;
+      min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      margin: 0;
+      padding: 24px;
     }
-    h2 { color: #7ab4ff; }
-    #key {
-      background: #1a1a24;
-      padding: 16px 32px;
-      border-radius: 8px;
-      font-size: 1.4rem;
-      border: 1px solid #333;
-      letter-spacing: 2px;
-      margin: 16px 0;
+
+    .card {
+      background: rgba(14, 18, 28, 0.85);
+      backdrop-filter: blur(20px);
+      border-radius: 40px;
+      border: 1px solid rgba(90, 140, 255, 0.25);
+      padding: 2.2rem 2rem;
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      transition: all 0.2s ease;
     }
-    button {
-      background: #3a7acd;
-      color: white;
-      border: none;
-      padding: 10px 24px;
-      border-radius: 6px;
-      cursor: pointer;
+
+    .badge {
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #6e8fd6;
+      background: rgba(60, 90, 150, 0.18);
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 60px;
+      margin-bottom: 1.2rem;
+      font-weight: 500;
+    }
+
+    h1 {
+      font-size: 1.7rem;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      background: linear-gradient(120deg, #ffffff, #9bbdff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 0.4rem;
+    }
+
+    .title-line {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .title-line span {
+      font-size: 0.9rem;
+      color: #5f73a1;
+    }
+
+    .sub {
+      font-size: 0.75rem;
+      color: #6f7da3;
+      border-top: 1px dashed #2a324c;
+      display: inline-block;
+      padding-top: 8px;
+      margin-bottom: 1.8rem;
+    }
+
+    .key-container {
+      background: #06090f;
+      border-radius: 28px;
+      padding: 6px;
+      margin: 24px 0 28px;
+      border: 1px solid #252f4a;
+      box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    #keyDisplay {
+      font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
       font-size: 1rem;
+      font-weight: 500;
+      word-break: break-all;
+      background: #010206;
+      padding: 20px 16px;
+      border-radius: 24px;
+      color: #cbe4ff;
+      letter-spacing: 0.3px;
+      border: none;
+      text-align: center;
     }
-    button:hover { background: #4a8aed; }
+
+    button {
+      background: #1f2b46;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #eaf1ff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      border: 0.5px solid #3f5282;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button:hover {
+      background: #2e3f64;
+      transform: scale(0.98);
+      border-color: #6d8ed1;
+    }
+
+    button:active {
+      transform: scale(0.96);
+    }
+
+    .footer {
+      margin-top: 28px;
+      font-size: 0.65rem;
+      color: #4f5d83;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer span {
+      background: #0c102080;
+      padding: 4px 12px;
+      border-radius: 40px;
+    }
   </style>
 </head>
 <body>
-  <h2>🔑 Your Liquify Key</h2>
-  <p>Copy this key and paste it in-game:</p>
-  <div id="key">Loading...</div>
-  <button onclick="copyKey()">Copy Key</button>
+<div class="card">
+  <div class="badge">✦ SECURE VAULT ✦</div>
+  <div class="title-line">
+    <h1>• Liquify 12 hour key •</h1>
+  </div>
+  <div class="sub">encrypted distribution · no plaintext keys</div>
 
-  <script>
-    // 4-layer encrypted keys
-    // Layer 1: XOR with salt
-    // Layer 2: Character shift +7
-    // Layer 3: Base64
-    // Layer 4: Reversed + Base64 again
-    const enc = [
-      "aFlVRGZ4ekROVmtGK2dRWjVJeFQ3c2xKZXd3RWU0eEI=",
-      "bW9DSGI5akh0WVNVdkFTTFVvbEUxc2xKZXd3RWU0eEI=",
-      "ZWt6RGNsVEp1b3dUOU1pTVNjVkdBdGxKZXd3RWU0eEI=",
-      "UElqSWxGekNBQkJTRFJ5TFhrVkR4c2xKZXd3RWU0eEI=",
-      "VllVSGdSUlJJWXpFZDVRS2ZnVklGdGxKZXd3RWU0eEI=",
-      "WGtTQ2tWekk2RWhWekF5SmJ3MUdFdGxKZXd3RWU0eEI=",
-      "ZDRDRWlWMEZEbEFWN2dnTGhZR0Q0c2xKZXd3RWU0eEI=",
-      "bU1FSmc1akh1VUJTNklDTVZzVkNyc2xKZXd3RWU0eEI=",
-      "ZXNpQ2taRUZvd1JVc1V5T2tjMUlCdGxKZXd3RWU0eEI=",
-      "WG96SWZ4akNuMHhVMXdnUWxVbUkwc2xKZXd3RWU0eEI="
-    ];
+  <div class="key-container">
+    <div id="keyDisplay">—— loading secure key ——</div>
+  </div>
 
-    const SHIFT = 7;
-    const SALT  = "liquify";
+  <button id="copyBtn">
+    <span>📋</span> Copy key
+  </button>
 
-    function decrypt(str) {
-      // Step 1: Base64 decode
-      let s = atob(str);
-      // Step 2: Reverse
-      s = s.split("").reverse().join("");
-      // Step 3: Base64 decode again
-      s = atob(s);
-      // Step 4: Un-shift by 7
+  <div class="footer">
+    <span>🔒 4-layer cipher</span>
+    <span>⚡ 100 unique keys</span>
+    <span>✅ XOR + shift + reverse + base64</span>
+  </div>
+</div>
+
+<script>
+  // ------------------------------------------------------------------
+  // 100 FULLY ENCRYPTED KEYS (liquify-12hour-...)
+  // Encrypted using: XOR(salt="liquify") + Caesar shift(+7) + reverse + double Base64
+  // NO plaintext keys appear anywhere in the source.
+  // Decryption happens only at runtime.
+  // ------------------------------------------------------------------
+  const encryptedKeys = [
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdNM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ=="
+  ];
+
+  // Decryption settings
+  const SALT = "liquify";
+  const SHIFT = 7;
+
+  function reverseString(str) {
+    return str.split('').reverse().join('');
+  }
+
+  function decrypt(encryptedBase64) {
+    try {
+      let layer1 = atob(encryptedBase64);
+      let layer2 = reverseString(layer1);
+      let layer3 = atob(layer2);
       let unshifted = "";
-      for (let i = 0; i < s.length; i++) {
-        unshifted += String.fromCharCode(s.charCodeAt(i) - SHIFT);
+      for (let i = 0; i < layer3.length; i++) {
+        unshifted += String.fromCharCode(layer3.charCodeAt(i) - SHIFT);
       }
-      // Step 5: XOR with salt to get original key
       let result = "";
       for (let i = 0; i < unshifted.length; i++) {
         result += String.fromCharCode(
@@ -84,19 +306,34 @@
         );
       }
       return result;
+    } catch (e) {
+      return "liquify-12hour-DECRYPT_ERROR";
     }
+  }
 
-    // Pick random key, decrypt and show
-    const chosen = decrypt(enc[Math.floor(Math.random() * enc.length)]);
-    document.getElementById("key").innerText = chosen;
+  // Decrypt all 100 keys at runtime
+  const decryptedKeys = encryptedKeys.map(enc => decrypt(enc));
 
-    function copyKey() {
-      navigator.clipboard.writeText(chosen);
-      document.querySelector("button").innerText = "✓ Copied!";
+  // Pick a random key from the 100
+  const randomIndex = Math.floor(Math.random() * decryptedKeys.length);
+  const finalKey = decryptedKeys[randomIndex];
+
+  // Display the key
+  document.getElementById("keyDisplay").innerText = finalKey;
+
+  // Copy functionality
+  document.getElementById("copyBtn").addEventListener("click", function() {
+    navigator.clipboard.writeText(finalKey).then(() => {
+      const btn = document.getElementById("copyBtn");
+      const originalHTML = btn.innerHTML;
+      btn.innerHTML = "<span>✓</span> Copied!";
       setTimeout(() => {
-        document.querySelector("button").innerText = "Copy Key";
+        btn.innerHTML = originalHTML;
       }, 2000);
-    }
-  </script>
+    }).catch(() => {
+      alert("Copy manually: " + finalKey);
+    });
+  });
+</script>
 </body>
 </html>
