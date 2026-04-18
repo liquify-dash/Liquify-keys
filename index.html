@@ -12,7 +12,7 @@
     }
 
     body {
-      background: linear-gradient(135deg, #f5f7fc 0%, #e9eef4 100%);
+      background: #0a0c12;
       font-family: -apple-system, 'Inter', 'Segoe UI', system-ui, sans-serif;
       min-height: 100vh;
       display: flex;
@@ -22,170 +22,271 @@
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(0px);
+      background: #11131c;
       border-radius: 32px;
-      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.02);
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.03);
       padding: 2rem 1.8rem;
       max-width: 540px;
       width: 100%;
-      transition: all 0.2s ease;
-      border: 1px solid rgba(0, 0, 0, 0.04);
+      border: 1px solid #242836;
     }
 
-    .title-section {
+    .title {
       text-align: center;
       margin-bottom: 1.8rem;
     }
 
-    .title-section h1 {
-      font-size: 1.65rem;
-      font-weight: 590;
-      color: #1a1e2c;
+    .title h1 {
+      font-size: 1.55rem;
+      font-weight: 550;
+      color: #eef3ff;
       letter-spacing: -0.2px;
     }
 
-    .title-section p {
-      font-size: 0.8rem;
-      color: #6b7280;
+    .title p {
+      font-size: 0.75rem;
+      color: #7e849c;
       margin-top: 6px;
     }
 
-    .key-container {
-      background: #f8f9fc;
+    .key-box {
+      background: #0c0e16;
       border-radius: 24px;
       padding: 6px;
-      margin: 20px 0 24px;
-      border: 1px solid #e4e7ed;
-      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02), 0 2px 6px rgba(0, 0, 0, 0.02);
+      margin: 20px 0 20px;
+      border: 1px solid #262b3e;
     }
 
     #keyDisplay {
       font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 500;
       word-break: break-all;
-      background: #ffffff;
+      background: #07090f;
       padding: 18px 14px;
       border-radius: 20px;
-      color: #1f2937;
+      color: #cbd5ff;
       letter-spacing: 0.2px;
       text-align: center;
-      border: none;
     }
 
     button {
-      background: #1f2b3e;
+      background: #1f253c;
       border: none;
       width: 100%;
-      padding: 14px 0;
+      padding: 13px 0;
       border-radius: 60px;
-      font-weight: 540;
-      font-size: 0.95rem;
-      color: white;
+      font-weight: 520;
+      font-size: 0.9rem;
+      color: #f0f3ff;
       cursor: pointer;
-      transition: 0.18s ease;
+      transition: 0.2s ease;
       font-family: inherit;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      border: 0.5px solid #2f3552;
     }
 
-    button:hover {
-      background: #2d3a52;
+    button:hover:not(:disabled) {
+      background: #2c3350;
       transform: scale(0.98);
     }
 
-    button:active {
+    button:active:not(:disabled) {
       transform: scale(0.96);
     }
 
     button:disabled {
-      opacity: 0.5;
+      opacity: 0.45;
       cursor: not-allowed;
-      transform: none;
-      background: #9aa3b5;
     }
 
-    .info-row {
+    .info {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-top: 18px;
-      padding-top: 12px;
-      border-top: 1px solid #eef2f8;
-    }
-
-    .cooldown {
-      font-size: 0.75rem;
-      color: #6c757d;
-      background: #f1f3f7;
-      padding: 5px 12px;
-      border-radius: 40px;
+      padding-top: 14px;
+      border-top: 1px solid #1e212e;
     }
 
     .status {
       font-size: 0.7rem;
-      color: #8b9bb0;
+      color: #6f7893;
+      background: #191d2a;
+      padding: 5px 12px;
+      border-radius: 40px;
     }
 
-    @keyframes fade {
-      0% { opacity: 0.6; }
-      100% { opacity: 1; }
+    .timer {
+      font-size: 0.7rem;
+      color: #9ea5c2;
+      background: #191d2a;
+      padding: 5px 12px;
+      border-radius: 40px;
+      font-family: monospace;
     }
+
+    .ready-txt { color: #7cd68e; }
+    .wait-txt { color: #e0a56b; }
   </style>
 </head>
 <body>
 <div class="card">
-  <div class="title-section">
+  <div class="title">
     <h1>• liquify · 12 hour key •</h1>
-    <p>generate your access key</p>
+    <p>single-use access key</p>
   </div>
 
-  <div class="key-container">
-    <div id="keyDisplay">— press generate —</div>
+  <div class="key-box">
+    <div id="keyDisplay">—— press generate ——</div>
   </div>
 
   <button id="generateBtn">generate key</button>
 
-  <div class="info-row">
-    <span class="status">⚡ single use</span>
-    <span class="cooldown" id="timerLabel">ready</span>
+  <div class="info">
+    <span class="status" id="statusLabel">● standby</span>
+    <span class="timer" id="timerLabel">ready</span>
   </div>
 </div>
 
 <script>
   (function() {
-    // ----- encrypted key pool (100 unique liquify-12hour- keys) -----
-    // all keys are obfuscated using XOR + shift + reverse + double base64
-    const encryptedSeeds = [
-      "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ=="
+    // ------------------------------------------------------------------
+    // 100 UNIQUELY ENCRYPTED KEYS (liquify-12hour-...)
+    // Each key encrypted with: XOR(salt) + Caesar shift(+7) + reverse + double Base64
+    // ------------------------------------------------------------------
+    const encryptedKeys = [
+      "VnpoT2EzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "VnpoT2EzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "RzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "UzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "VjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "WjNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "UzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "VjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "WjNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "UzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "VTNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
+      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
+      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ=="
     ];
 
     const SALT = "liquify";
     const SHIFT = 7;
 
-    function reverseStr(s) { return s.split('').reverse().join(''); }
+    function reverseStr(s) {
+      return s.split('').reverse().join('');
+    }
 
-    function decryptKey(enc) {
+    function decrypt(enc) {
       try {
         let a = atob(enc);
         let b = reverseStr(a);
         let c = atob(b);
         let unshifted = "";
-        for (let i = 0; i < c.length; i++) unshifted += String.fromCharCode(c.charCodeAt(i) - SHIFT);
+        for (let i = 0; i < c.length; i++) {
+          unshifted += String.fromCharCode(c.charCodeAt(i) - SHIFT);
+        }
         let result = "";
-        for (let i = 0; i < unshifted.length; i++) result += String.fromCharCode(unshifted.charCodeAt(i) ^ SALT.charCodeAt(i % SALT.length));
+        for (let i = 0; i < unshifted.length; i++) {
+          result += String.fromCharCode(unshifted.charCodeAt(i) ^ SALT.charCodeAt(i % SALT.length));
+        }
         return result;
-      } catch(e) { return "liquify-12hour-ready"; }
+      } catch(e) {
+        return "liquify-12hour-error";
+      }
     }
 
-    const keyPool = encryptedSeeds.map(decryptKey);
+    // Decrypt all keys at runtime
+    const keyPool = encryptedKeys.map(enc => decrypt(enc));
+
+    // Cooldown setup (12 hours)
     const STORAGE_KEY = "liquify_last_gen";
     const COOLDOWN_MS = 12 * 60 * 60 * 1000;
 
@@ -218,15 +319,23 @@
     function updateUI() {
       const btn = document.getElementById("generateBtn");
       const timerSpan = document.getElementById("timerLabel");
+      const statusSpan = document.getElementById("statusLabel");
+
       if (canGenerate()) {
         btn.disabled = false;
-        timerSpan.innerText = "ready";
-        timerSpan.style.color = "#2c6e2c";
+        timerSpan.innerHTML = "ready";
+        timerSpan.classList.add("ready-txt");
+        timerSpan.classList.remove("wait-txt");
+        statusSpan.innerHTML = "● ready";
+        statusSpan.style.color = "#7cd68e";
       } else {
         btn.disabled = true;
         const remaining = getRemainingTime();
-        timerSpan.innerText = `cooldown · ${formatTime(remaining)}`;
-        timerSpan.style.color = "#a1622b";
+        timerSpan.innerHTML = `${formatTime(remaining)}`;
+        timerSpan.classList.add("wait-txt");
+        timerSpan.classList.remove("ready-txt");
+        statusSpan.innerHTML = "● cooldown";
+        statusSpan.style.color = "#e0a56b";
       }
     }
 
@@ -240,6 +349,18 @@
       document.getElementById("keyDisplay").innerText = currentKey;
       localStorage.setItem(STORAGE_KEY, Date.now().toString());
       updateUI();
+
+      // Update status to show success briefly
+      const statusSpan = document.getElementById("statusLabel");
+      statusSpan.innerHTML = "✓ key generated";
+      statusSpan.style.color = "#7cd68e";
+      setTimeout(() => {
+        if (canGenerate()) {
+          statusSpan.innerHTML = "● ready";
+        } else {
+          statusSpan.innerHTML = "● cooldown";
+        }
+      }, 2000);
     }
 
     function startTimerLoop() {
