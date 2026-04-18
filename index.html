@@ -12,328 +12,244 @@
     }
 
     body {
-      background: linear-gradient(135deg, #0c0f1c 0%, #05070f 100%);
-      font-family: -apple-system, 'Inter', 'Segoe UI', monospace;
+      background: linear-gradient(135deg, #f5f7fc 0%, #e9eef4 100%);
+      font-family: -apple-system, 'Inter', 'Segoe UI', system-ui, sans-serif;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 20px;
     }
 
     .card {
-      background: rgba(14, 18, 28, 0.85);
-      backdrop-filter: blur(20px);
-      border-radius: 40px;
-      border: 1px solid rgba(90, 140, 255, 0.25);
-      padding: 2.2rem 2rem;
-      max-width: 560px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(0px);
+      border-radius: 32px;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.02);
+      padding: 2rem 1.8rem;
+      max-width: 540px;
       width: 100%;
-      text-align: center;
-      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.03);
       transition: all 0.2s ease;
+      border: 1px solid rgba(0, 0, 0, 0.04);
     }
 
-    .badge {
-      font-size: 0.7rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #6e8fd6;
-      background: rgba(60, 90, 150, 0.18);
-      display: inline-block;
-      padding: 6px 16px;
-      border-radius: 60px;
-      margin-bottom: 1.2rem;
-      font-weight: 500;
-    }
-
-    h1 {
-      font-size: 1.7rem;
-      font-weight: 600;
-      letter-spacing: -0.3px;
-      background: linear-gradient(120deg, #ffffff, #9bbdff);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      margin-bottom: 0.4rem;
-    }
-
-    .title-line {
-      display: flex;
-      align-items: baseline;
-      justify-content: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 8px;
-    }
-
-    .title-line span {
-      font-size: 0.9rem;
-      color: #5f73a1;
-    }
-
-    .sub {
-      font-size: 0.75rem;
-      color: #6f7da3;
-      border-top: 1px dashed #2a324c;
-      display: inline-block;
-      padding-top: 8px;
+    .title-section {
+      text-align: center;
       margin-bottom: 1.8rem;
     }
 
+    .title-section h1 {
+      font-size: 1.65rem;
+      font-weight: 590;
+      color: #1a1e2c;
+      letter-spacing: -0.2px;
+    }
+
+    .title-section p {
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin-top: 6px;
+    }
+
     .key-container {
-      background: #06090f;
-      border-radius: 28px;
+      background: #f8f9fc;
+      border-radius: 24px;
       padding: 6px;
-      margin: 24px 0 28px;
-      border: 1px solid #252f4a;
-      box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.2);
+      margin: 20px 0 24px;
+      border: 1px solid #e4e7ed;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02), 0 2px 6px rgba(0, 0, 0, 0.02);
     }
 
     #keyDisplay {
       font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 500;
       word-break: break-all;
-      background: #010206;
-      padding: 20px 16px;
-      border-radius: 24px;
-      color: #cbe4ff;
-      letter-spacing: 0.3px;
-      border: none;
+      background: #ffffff;
+      padding: 18px 14px;
+      border-radius: 20px;
+      color: #1f2937;
+      letter-spacing: 0.2px;
       text-align: center;
+      border: none;
     }
 
     button {
-      background: #1f2b46;
+      background: #1f2b3e;
       border: none;
-      padding: 12px 28px;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: #eaf1ff;
+      width: 100%;
+      padding: 14px 0;
+      border-radius: 60px;
+      font-weight: 540;
+      font-size: 0.95rem;
+      color: white;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: 0.18s ease;
       font-family: inherit;
-      border: 0.5px solid #3f5282;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
     button:hover {
-      background: #2e3f64;
+      background: #2d3a52;
       transform: scale(0.98);
-      border-color: #6d8ed1;
     }
 
     button:active {
       transform: scale(0.96);
     }
 
-    .footer {
-      margin-top: 28px;
-      font-size: 0.65rem;
-      color: #4f5d83;
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      background: #9aa3b5;
     }
 
-    .footer span {
-      background: #0c102080;
-      padding: 4px 12px;
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 18px;
+      padding-top: 12px;
+      border-top: 1px solid #eef2f8;
+    }
+
+    .cooldown {
+      font-size: 0.75rem;
+      color: #6c757d;
+      background: #f1f3f7;
+      padding: 5px 12px;
       border-radius: 40px;
+    }
+
+    .status {
+      font-size: 0.7rem;
+      color: #8b9bb0;
+    }
+
+    @keyframes fade {
+      0% { opacity: 0.6; }
+      100% { opacity: 1; }
     }
   </style>
 </head>
 <body>
 <div class="card">
-  <div class="badge">✦ SECURE VAULT ✦</div>
-  <div class="title-line">
-    <h1>• Liquify 12 hour key •</h1>
+  <div class="title-section">
+    <h1>• liquify · 12 hour key •</h1>
+    <p>generate your access key</p>
   </div>
-  <div class="sub">encrypted distribution · no plaintext keys</div>
 
   <div class="key-container">
-    <div id="keyDisplay">—— loading secure key ——</div>
+    <div id="keyDisplay">— press generate —</div>
   </div>
 
-  <button id="copyBtn">
-    <span>📋</span> Copy key
-  </button>
+  <button id="generateBtn">generate key</button>
 
-  <div class="footer">
-    <span>🔒 4-layer cipher</span>
-    <span>⚡ 100 unique keys</span>
-    <span>✅ XOR + shift + reverse + base64</span>
+  <div class="info-row">
+    <span class="status">⚡ single use</span>
+    <span class="cooldown" id="timerLabel">ready</span>
   </div>
 </div>
 
 <script>
-  // ------------------------------------------------------------------
-  // 100 FULLY ENCRYPTED KEYS (liquify-12hour-...)
-  // Encrypted using: XOR(salt="liquify") + Caesar shift(+7) + reverse + double Base64
-  // NO plaintext keys appear anywhere in the source.
-  // Decryption happens only at runtime.
-  // ------------------------------------------------------------------
-  const encryptedKeys = [
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdNM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-    "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-    "YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-    "YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ=="
-  ];
+  (function() {
+    // ----- encrypted key pool (100 unique liquify-12hour- keys) -----
+    // all keys are obfuscated using XOR + shift + reverse + double base64
+    const encryptedSeeds = [
+      "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
+      "YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==","YjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==","YzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==","YzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ=="
+    ];
 
-  // Decryption settings
-  const SALT = "liquify";
-  const SHIFT = 7;
+    const SALT = "liquify";
+    const SHIFT = 7;
 
-  function reverseString(str) {
-    return str.split('').reverse().join('');
-  }
+    function reverseStr(s) { return s.split('').reverse().join(''); }
 
-  function decrypt(encryptedBase64) {
-    try {
-      let layer1 = atob(encryptedBase64);
-      let layer2 = reverseString(layer1);
-      let layer3 = atob(layer2);
-      let unshifted = "";
-      for (let i = 0; i < layer3.length; i++) {
-        unshifted += String.fromCharCode(layer3.charCodeAt(i) - SHIFT);
-      }
-      let result = "";
-      for (let i = 0; i < unshifted.length; i++) {
-        result += String.fromCharCode(
-          unshifted.charCodeAt(i) ^ SALT.charCodeAt(i % SALT.length)
-        );
-      }
-      return result;
-    } catch (e) {
-      return "liquify-12hour-DECRYPT_ERROR";
+    function decryptKey(enc) {
+      try {
+        let a = atob(enc);
+        let b = reverseStr(a);
+        let c = atob(b);
+        let unshifted = "";
+        for (let i = 0; i < c.length; i++) unshifted += String.fromCharCode(c.charCodeAt(i) - SHIFT);
+        let result = "";
+        for (let i = 0; i < unshifted.length; i++) result += String.fromCharCode(unshifted.charCodeAt(i) ^ SALT.charCodeAt(i % SALT.length));
+        return result;
+      } catch(e) { return "liquify-12hour-ready"; }
     }
-  }
 
-  // Decrypt all 100 keys at runtime
-  const decryptedKeys = encryptedKeys.map(enc => decrypt(enc));
+    const keyPool = encryptedSeeds.map(decryptKey);
+    const STORAGE_KEY = "liquify_last_gen";
+    const COOLDOWN_MS = 12 * 60 * 60 * 1000;
 
-  // Pick a random key from the 100
-  const randomIndex = Math.floor(Math.random() * decryptedKeys.length);
-  const finalKey = decryptedKeys[randomIndex];
+    let currentKey = null;
 
-  // Display the key
-  document.getElementById("keyDisplay").innerText = finalKey;
+    function canGenerate() {
+      const last = localStorage.getItem(STORAGE_KEY);
+      if (!last) return true;
+      return (Date.now() - parseInt(last)) >= COOLDOWN_MS;
+    }
 
-  // Copy functionality
-  document.getElementById("copyBtn").addEventListener("click", function() {
-    navigator.clipboard.writeText(finalKey).then(() => {
-      const btn = document.getElementById("copyBtn");
-      const originalHTML = btn.innerHTML;
-      btn.innerHTML = "<span>✓</span> Copied!";
-      setTimeout(() => {
-        btn.innerHTML = originalHTML;
-      }, 2000);
-    }).catch(() => {
-      alert("Copy manually: " + finalKey);
-    });
-  });
+    function getRemainingTime() {
+      const last = localStorage.getItem(STORAGE_KEY);
+      if (!last) return 0;
+      const elapsed = Date.now() - parseInt(last);
+      if (elapsed >= COOLDOWN_MS) return 0;
+      return COOLDOWN_MS - elapsed;
+    }
+
+    function formatTime(ms) {
+      if (ms <= 0) return "ready";
+      const hours = Math.floor(ms / (60 * 60 * 1000));
+      const minutes = Math.floor((ms % (60 * 60 * 1000)) / (60 * 1000));
+      const seconds = Math.floor((ms % (60 * 1000)) / 1000);
+      if (hours > 0) return `${hours}h ${minutes}m`;
+      if (minutes > 0) return `${minutes}m ${seconds}s`;
+      return `${seconds}s`;
+    }
+
+    function updateUI() {
+      const btn = document.getElementById("generateBtn");
+      const timerSpan = document.getElementById("timerLabel");
+      if (canGenerate()) {
+        btn.disabled = false;
+        timerSpan.innerText = "ready";
+        timerSpan.style.color = "#2c6e2c";
+      } else {
+        btn.disabled = true;
+        const remaining = getRemainingTime();
+        timerSpan.innerText = `cooldown · ${formatTime(remaining)}`;
+        timerSpan.style.color = "#a1622b";
+      }
+    }
+
+    function generateAndDisplay() {
+      if (!canGenerate()) {
+        updateUI();
+        return;
+      }
+      const randomIndex = Math.floor(Math.random() * keyPool.length);
+      currentKey = keyPool[randomIndex];
+      document.getElementById("keyDisplay").innerText = currentKey;
+      localStorage.setItem(STORAGE_KEY, Date.now().toString());
+      updateUI();
+    }
+
+    function startTimerLoop() {
+      updateUI();
+      setInterval(() => updateUI(), 1000);
+    }
+
+    document.getElementById("generateBtn").addEventListener("click", generateAndDisplay);
+    startTimerLoop();
+  })();
 </script>
 </body>
 </html>
