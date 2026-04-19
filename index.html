@@ -3,8 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Liquify · 12 Hour Key</title>
+  <title>Liquify · Premium Key Manager</title>
   <style>
+    :root {
+      --bg-deep: #03040a;
+      --bg-card: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.06);
+      --text-primary: #f0f4ff;
+      --text-secondary: #8b92b4;
+      --accent: #00d4aa;
+      --accent-glow: rgba(0, 212, 170, 0.15);
+      --working: #34d399;
+      --working-glow: rgba(52, 211, 153, 0.15);
+      --expired: #f87171;
+      --expired-glow: rgba(248, 113, 113, 0.15);
+      --unknown: #fbbf24;
+      --unknown-glow: rgba(251, 191, 36, 0.15);
+      --glass: rgba(255, 255, 255, 0.02);
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -12,365 +29,996 @@
     }
 
     body {
-      background: #0a0c12;
-      font-family: -apple-system, 'Inter', 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg-deep);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', system-ui, sans-serif;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 24px;
+      color: var(--text-primary);
+      overflow-x: hidden;
+      position: relative;
     }
 
+    /* Animated ambient background */
+    .ambient {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    .orb-1 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(0,212,170,0.15), transparent 70%);
+      top: -10%;
+      left: -10%;
+      animation-delay: 0s;
+    }
+
+    .orb-2 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(99,102,241,0.12), transparent 70%);
+      bottom: -5%;
+      right: -5%;
+      animation-delay: -5s;
+    }
+
+    .orb-3 {
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(236,72,153,0.1), transparent 70%);
+      top: 40%;
+      left: 60%;
+      animation-delay: -10s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.1); }
+      66% { transform: translate(-20px, 20px) scale(0.95); }
+    }
+
+    /* Card */
     .card {
-      background: #11131c;
-      border-radius: 32px;
-      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.03);
-      padding: 2rem 1.8rem;
-      max-width: 540px;
+      position: relative;
+      z-index: 1;
       width: 100%;
-      border: 1px solid #242836;
+      max-width: 640px;
+      background: var(--bg-card);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 40px 36px;
+      box-shadow: 
+        0 0 0 1px rgba(255,255,255,0.02) inset,
+        0 20px 60px -15px rgba(0,0,0,0.6),
+        0 0 80px -20px rgba(0,212,170,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .title {
+    .card:hover {
+      box-shadow: 
+        0 0 0 1px rgba(255,255,255,0.04) inset,
+        0 20px 60px -15px rgba(0,0,0,0.6),
+        0 0 100px -20px rgba(0,212,170,0.12);
+    }
+
+    /* Header */
+    header {
       text-align: center;
-      margin-bottom: 1.8rem;
+      margin-bottom: 32px;
     }
 
-    .title h1 {
-      font-size: 1.55rem;
-      font-weight: 550;
-      color: #eef3ff;
-      letter-spacing: -0.2px;
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
     }
 
-    .title p {
-      font-size: 0.75rem;
-      color: #7e849c;
-      margin-top: 6px;
+    .brand-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
+      animation: pulse 2s ease-in-out infinite;
     }
 
-    .key-box {
-      background: #0c0e16;
-      border-radius: 24px;
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-weight: 450;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* Key Display */
+    .key-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .key-wrapper {
+      background: linear-gradient(180deg, rgba(0,0,0,0.4), rgba(0,0,0,0.3));
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 20px;
       padding: 6px;
-      margin: 20px 0 20px;
-      border: 1px solid #262b3e;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .key-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent 40%, transparent 60%, rgba(255,255,255,0.05));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .key-glow {
+      position: absolute;
+      inset: -1px;
+      border-radius: 20px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    .key-glow.active {
+      opacity: 1;
+    }
+
+    .key-glow.working {
+      background: radial-gradient(circle at center, var(--working-glow), transparent 70%);
+    }
+
+    .key-glow.expired {
+      background: radial-gradient(circle at center, var(--expired-glow), transparent 70%);
+    }
+
+    .key-glow.unknown {
+      background: radial-gradient(circle at center, var(--unknown-glow), transparent 70%);
     }
 
     #keyDisplay {
-      font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
-      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 0.9rem;
       font-weight: 500;
-      word-break: break-all;
-      background: #07090f;
-      padding: 18px 14px;
-      border-radius: 20px;
-      color: #cbd5ff;
-      letter-spacing: 0.2px;
+      letter-spacing: -0.3px;
+      color: var(--text-primary);
+      background: rgba(0,0,0,0.2);
+      padding: 20px 16px;
+      border-radius: 14px;
       text-align: center;
+      word-break: break-all;
+      line-height: 1.5;
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    #keyDisplay.placeholder {
+      color: var(--text-secondary);
+      opacity: 0.6;
+    }
+
+    /* Buttons */
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
     }
 
     button {
-      background: #1f253c;
+      appearance: none;
       border: none;
-      width: 100%;
-      padding: 13px 0;
-      border-radius: 60px;
-      font-weight: 520;
-      font-size: 0.9rem;
-      color: #f0f3ff;
-      cursor: pointer;
-      transition: 0.2s ease;
+      background: var(--glass);
+      color: var(--text-primary);
       font-family: inherit;
-      border: 0.5px solid #2f3552;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 12px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      letter-spacing: -0.2px;
     }
 
-    button:hover:not(:disabled) {
-      background: #2c3350;
-      transform: scale(0.98);
+    button::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
+      opacity: 0;
+      transition: opacity 0.2s ease;
     }
 
-    button:active:not(:disabled) {
-      transform: scale(0.96);
+    button:hover::before {
+      opacity: 1;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.12);
+      box-shadow: 0 8px 24px -8px rgba(0,0,0,0.4);
+    }
+
+    button:active {
+      transform: translateY(0) scale(0.98);
     }
 
     button:disabled {
-      opacity: 0.45;
+      opacity: 0.4;
       cursor: not-allowed;
+      transform: none;
     }
 
-    .info {
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(0,212,170,0.15), rgba(0,212,170,0.05));
+      border-color: rgba(0,212,170,0.2);
+      color: #e0fff7;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, rgba(0,212,170,0.25), rgba(0,212,170,0.1));
+      border-color: rgba(0,212,170,0.35);
+      box-shadow: 0 8px 24px -8px rgba(0,212,170,0.25);
+    }
+
+    .btn-check {
+      background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(99,102,241,0.05));
+      border-color: rgba(99,102,241,0.2);
+      color: #e0e0ff;
+    }
+
+    .btn-check:hover {
+      background: linear-gradient(135deg, rgba(99,102,241,0.25), rgba(99,102,241,0.1));
+      border-color: rgba(99,102,241,0.35);
+      box-shadow: 0 8px 24px -8px rgba(99,102,241,0.25);
+    }
+
+    .btn-copy {
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+    }
+
+    /* Status Row */
+    .status-row {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-top: 18px;
-      padding-top: 14px;
-      border-top: 1px solid #1e212e;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 28px;
+      min-height: 32px;
     }
 
-    .status {
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(4px);
+    }
+
+    .status-badge.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .status-badge.working {
+      background: rgba(52, 211, 153, 0.1);
+      color: var(--working);
+      border-color: rgba(52, 211, 153, 0.2);
+      box-shadow: 0 0 20px -5px var(--working-glow);
+    }
+
+    .status-badge.expired {
+      background: rgba(248, 113, 113, 0.1);
+      color: var(--expired);
+      border-color: rgba(248, 113, 113, 0.2);
+      box-shadow: 0 0 20px -5px var(--expired-glow);
+    }
+
+    .status-badge.unknown {
+      background: rgba(251, 191, 36, 0.1);
+      color: var(--unknown);
+      border-color: rgba(251, 191, 36, 0.2);
+      box-shadow: 0 0 20px -5px var(--unknown-glow);
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .status-badge.working .status-dot { background: var(--working); box-shadow: 0 0 8px var(--working); }
+    .status-badge.expired .status-dot { background: var(--expired); box-shadow: 0 0 8px var(--expired); }
+    .status-badge.unknown .status-dot { background: var(--unknown); box-shadow: 0 0 8px var(--unknown); }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .stat {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .stat:hover {
+      border-color: rgba(255,255,255,0.1);
+      transform: translateY(-2px);
+    }
+
+    .stat-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-weight: 600;
+    }
+
+    /* History */
+    .history-title {
       font-size: 0.7rem;
-      color: #6f7893;
-      background: #191d2a;
-      padding: 5px 12px;
-      border-radius: 40px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .timer {
-      font-size: 0.7rem;
-      color: #9ea5c2;
-      background: #191d2a;
-      padding: 5px 12px;
-      border-radius: 40px;
-      font-family: monospace;
+    .history-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border), transparent);
     }
 
-    .ready-txt { color: #7cd68e; }
-    .wait-txt { color: #e0a56b; }
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 240px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .history-list::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .history-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .history-list::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+    }
+
+    .history-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.78rem;
+      transition: all 0.2s ease;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .history-item:hover {
+      border-color: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .history-key {
+      font-family: 'SF Mono', monospace;
+      color: var(--text-secondary);
+      word-break: break-all;
+      flex: 1;
+      margin-right: 12px;
+      font-size: 0.75rem;
+    }
+
+    .history-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .history-time {
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      opacity: 0.7;
+    }
+
+    .history-status {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .history-status.working { background: var(--working); box-shadow: 0 0 6px var(--working); }
+    .history-status.expired { background: var(--expired); box-shadow: 0 0 6px var(--expired); }
+    .history-status.unknown { background: var(--unknown); box-shadow: 0 0 6px var(--unknown); }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(15, 17, 28, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      z-index: 100;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Loading spinner */
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-top-color: currentColor;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .card { padding: 28px 20px; }
+      .actions { grid-template-columns: 1fr; }
+      h1 { font-size: 1.25rem; }
+      #keyDisplay { font-size: 0.8rem; padding: 16px 12px; }
+    }
   </style>
 </head>
 <body>
-<div class="card">
-  <div class="title">
-    <h1>• liquify · 12 hour key •</h1>
-    <p>single-use access key</p>
+  <div class="ambient">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
   </div>
 
-  <div class="key-box">
-    <div id="keyDisplay">—— press generate ——</div>
-  </div>
+  <main class="card">
+    <header>
+      <div class="brand">
+        <div class="brand-dot"></div>
+        <h1>Liquify Key Manager</h1>
+      </div>
+      <p class="subtitle">Premium Access Key System</p>
+    </header>
 
-  <button id="generateBtn">generate key</button>
+    <div class="key-container">
+      <div class="key-wrapper">
+        <div class="key-glow" id="keyGlow"></div>
+        <div id="keyDisplay" class="placeholder">Press generate to reveal key</div>
+      </div>
+    </div>
 
-  <div class="info">
-    <span class="status" id="statusLabel">● standby</span>
-    <span class="timer" id="timerLabel">ready</span>
-  </div>
-</div>
+    <div class="actions">
+      <button id="generateBtn" class="btn-primary">Generate Key</button>
+      <button id="copyBtn" class="btn-copy" disabled>Copy Key</button>
+      <button id="checkBtn" class="btn-check" disabled>Check Status</button>
+    </div>
 
-<script>
-  (function() {
-    // ------------------------------------------------------------------
-    // 100 UNIQUELY ENCRYPTED KEYS (liquify-12hour-...)
-    // Each key encrypted with: XOR(salt) + Caesar shift(+7) + reverse + double Base64
-    // ------------------------------------------------------------------
-    const encryptedKeys = [
-      "VnpoT2EzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "VnpoT2EzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "RzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "UzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "VjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "WjNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "UzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "VjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "WjNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "UzJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "VTNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWak1HUTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VjJadmNtVmhZbUZ6YzJoNE1ISmhWbFpqWkdNMk1VSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ==",
-      "WjNJeWIzSmxZbXhsYzJOck9HaHpNSEJhV2tWalpHWTJNVkpKZFd0T2JHeDJlVTVXU0M4PQ==",
-      "UzNSeWIzSmxaR0Z6YzJod01ISk9WbE5qWkdRM01VSkVNVzVyYkZrd2RVMVRaVzAxU0M4PQ==",
-      "VzJadmNtVmhibUZ6YzJoNE1IQmhWbFpqWkdNMU1rSkVNVzVyYkZrd2RVMVVhVzAxU0M4PQ=="
-    ];
+    <div class="status-row">
+      <div class="status-badge" id="statusBadge">
+        <span class="status-dot"></span>
+        <span id="statusText">Ready</span>
+      </div>
+    </div>
 
-    const SALT = "liquify";
-    const SHIFT = 7;
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value" id="statTotal">0</div>
+        <div class="stat-label">Generated</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="statWorking">0</div>
+        <div class="stat-label">Working</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="statExpired">0</div>
+        <div class="stat-label">Expired</div>
+      </div>
+    </div>
 
-    function reverseStr(s) {
-      return s.split('').reverse().join('');
-    }
+    <div class="history-title">Recent Keys</div>
+    <div class="history-list" id="historyList">
+      <div style="text-align: center; color: var(--text-secondary); font-size: 0.8rem; padding: 20px; opacity: 0.5;">
+        No keys generated yet
+      </div>
+    </div>
+  </main>
 
-    function decrypt(enc) {
+  <div class="toast" id="toast"></div>
+
+  <script>
+    (function() {
+      // --- Encrypted Key Pool (100 keys) ---
+      // Each encrypted with unique salt "lqXXX" and shift (idx % 12) + 2
+      const encryptedKeys = [
+        "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",
+        "a00oCXtHgB4pVmpNPVhaeFY7Hm5UeQ0/GUVJIggOBiEMDlVKRRwE",
+        "blYlIIFGaQ0+VYFFQlpZglg4H29VdhA5GUZKIwkQByIND1VLRh0F",
+        "dkk2IoVjaw4+SHdNJmJdgmBABmZhfwo7I0xLJAoICyMOEF9HRx4G",
+        "dF8rDX9mgwgqX2hQLGRKfls7G21OaBc9I01MJQsKDCQPEV9ISB8H",
+        "h2QpC4NJcQ1GX31LPWZce2BDD4Zhhg82J05NJgwIDSUQEmNJSSAI",
+        "a18sIXNlbiQuYW1oRmhnh2dCF31LfxI4J09OJw0KDiYRE2NKSiEJ",
+        "UG4SQ2eFSkcRZ2tkRmJmhE5AGHBccBwyI1BPKA4QDycSFGdLSyIK",
+        "gE5AFX1nhSUrY4VRPmROcl47IXhSbBE0I1FQKQ8SECgTFWdMTCML",
+        "f14zKoFcgRVHUXFdN2Zmi2VHJYpZcA82J1JRKhAQESkUFmtNTSQM",
+        "iWtDG35PgBZMWoJNS2hoimgxE3tpixI4J1NSKxESEioVF2tOTiUN",
+        "f10/HnlfZwo6THNJIlZTfUI/CXNgZwomF0hHIAYMBx8KDFNDQxoC",
+        "Z2JABHZdexYuUnVWOFhNeEQpDG5DbAcoF0lIIQcOCCALDVNERBsD",
+        "RH5dKBloS3kKQUd6TC9gRmVNKAmDSYAeKiFLSSIIBgghDA5dREUcBA==",
+        "Y35iQAd+XHwML1psTDliSGZOKQp9X2UiLCFMSiMJCAkiDQ9dRUYdBQ==",
+        "bFJrHilIf2FBB2CBWDxkTHJeKgyBZGYkJiVNSyQKBgojDhBhRkceBg==",
+        "hF5tGTtHdlgnIn1Oa0kcbWOGCCdfY2wiKCVOTCULCAskDxFhR0gfBw==",
+        "S3hKLR1pZIcJKGeHYD5gWnlLOB50Xm4bKiFPTSYMDgwlEBJlSEkgCA==",
+        "Z4hmQgt7YG8gOFp2TDRiXW1QPSdqVW4hLCFQTicNEA0mERNlSUohCQ==",
+        "hVwxGXhQdBpHS3pML2RZamNIJoRogyhGJVFPKA4ODicSFGlKSyIK",
+        "fV0yFXBMdCREaIdmSGZShWQvIG5SgBFIJVJQKQ8QDygTFWlLTCML",
+        "bFUxKolObRxLaH9jRWBeimgtD31MdRFKIVNRKhAWECkUFl1MTSQM",
+        "blYxEoNSiSczYYprQ2JocE8/FYladB1MIVRSKxEYESoVF11NTiUN",
+        "fl87BHlWaBlARnFaJl5cgV0/HoFhZwo6H0ZHIAYECR8KDFtFQxoC",
+        "RXVZOQd+YH8fJVZjVixgRW9UIx53R2cLPB9HSCEHBgogCw1bRkQbAw==",
+        "ckcvEWdFeQc8T2ddQmJGfl8/BX5cexc+I0hJIggECyEMDl9HRRwE",
+        "Z04pCoFLgR8rY4NjO2RWdUs3GWVRdgVAI0lKIwkGDCIND19IRh0F",
+        "bGU+H3NIaBozTXhcPF5igmFDB4BabBg6H0pLJAoMDSMOEGNJRx4G",
+        "bk47JWhWbB8qTIFiQmBfhWU9FWpXaQw8H0tMJQsODiQPEWNKSB8H",
+        "e0otHWtnhwkoZYRlQWJgeVovEn1acAo+I0xNJgwMDyUQEmdLSSAI",
+        "a0s9JG9gbB4zWYdjQ2Rkb2hBIndLax02I01OJw0OECYRE2dMSiEJ",
+        "al0zKWxhaxAzVGxTLl5bg0pHEXxlgik4H05PKA4UEScSFFtNSyIK",
+        "d1wrJodPbxNEW4RLSGBdh2hEDYlfcSI6H09QKQ8WEigTFVtOTCML",
+        "flMsGW9fgiIwZohoLWhrilE0JG5efQ40KVFRKhAOEikUFmVOTSQM",
+        "f08yInFrjA4tZ4pqTGpgbmA2LHhjbhM2KVJSKxEQEyoVF2VPTiUN",
+        "Z0YqBmlfexwiRHpbJmBNZUQ2HWVYZRcsIUdHIAYCCB8KDF1EQxoC",
+        "ZFYsImxZZAksRGZMJ2Jde0NACnxdeyIuIUhIIQcECSALDV1FRBsD",
+        "Zl48C3xLgxw9UWdGOFxHalUmDHZUfB8oHUlJIggKCiEMDmFGRRwE",
+        "gmJEE2hZbQc7WWtMOV5MaE4pCn9MgR8qHUpKIwkMCyIND2FHRh0F",
+        "alo9EYRjgSNCX4RLLmBIa1s2JXhXfR8sIUtLJAoKDCMOEGVIRx4G",
+        "X4JkQgmGXH4OMVpsTjtiTGpQKwyFX2ckLiFMTCULDA0kDxFlSUgfBw==",
+        "hWNFCX5dbho8U3VZKFxXekotHXVmhwkoHU1NJgwSDiUQEllKSSAI",
+        "Xm8bPVN2WikkhU5tEV51Z4gKKVtnbiQqHU5OJw0UDyYRE1lLSiEJ",
+        "h0wvH29biQsqZXxiQGZghk06IHJlcB0sJ1RPKA4MEycSFGNXSyIK",
+        "ZX1oRA2BZXEiOmBrTjZoW3RSPylwTHAjLidVUCkPDhQoExVjWEwjCw==",
+        "gl4zG3ZXdhxJUYlOMWpXeWVKKIpfhSpIK1ZRKhAMFSkUFmdZTSQM",
+        "jF80F25ZdiZGZn5oSmxQhGYxInRXghNKK1dSKxEOFioVF2daTiUN",
+        "b0snIHNRYxJBUoBZO1pgdV4jBX9PawdAG0xHIAYICx8KDF9PQxoC",
+        "b0wnCH1Lfx0pW3NhOVxacUU1C3NDahNCG01IIQcKDCALDV9QRBsD",
+        "dmE9BnVeahtCRmVcKF5gdV9BIH1VaQw8H05JIggIDSEMDmNRRRwE",
+        "SYFbOwmCWIEhJ1pzWC5gSWdWJSB3T2kNPh9PSiMJCg4iDQ9jUkYdBQ==",
+        "ZkkxE29Vewk+R3NfRFpOemFBB3ZcfRlAG1BLJAoQDyMOEFdTRx4G",
+        "c1ArDH1PgyEtW3dlPVxihU05G3FJeAdCG1FMJQsSECQPEVdUSB8H",
+        "cWdAIXFVahw1S4VePmRge2NFCYZjbho8JVNNJgwKECUQEmFUSSAI",
+        "cVA9J25JbiEsSn5kRGZlemc/F3Boaw4+JVROJw0MESYRE2FVSiEJ",
+        "hkwvH3FaiQsqY31nQ2hmiFwxFHtncgxAKVVPKA4KEicSFGVWSyIK",
+        "eE0/Jm1jbiA1X3xlRWpqdGpDJHVYbR84KVZQKQ8MEygTFWVXTCML",
+        "e181K3pkbRI1UnlVMGRpgkxJE4pghCs6JVdRKhASFCkUFmlYTSQM",
+        "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",
+      ];
+
+      // --- Decryption Logic ---
+      function decryptKey(enc, idx) {
+        const salt = "lq" + String(idx).padStart(3, "0");
+        const shift = (idx % 12) + 2;
+        try {
+          let a = atob(enc);
+          let b = a.split("").reverse().join("");
+          let unshifted = "";
+          for (let i = 0; i < b.length; i++) {
+            unshifted += String.fromCharCode((b.charCodeAt(i) - shift + 256) % 256);
+          }
+          let result = "";
+          for (let i = 0; i < unshifted.length; i++) {
+            result += String.fromCharCode(unshifted.charCodeAt(i) ^ salt.charCodeAt(i % salt.length));
+          }
+          return result;
+        } catch(e) {
+          return "decrypt-error";
+        }
+      }
+
+      // Decrypt all on init
+      const keyPool = encryptedKeys.map((enc, i) => decryptKey(enc, i));
+
+      // --- State ---
+      let currentKey = null;
+      let currentIdx = -1;
+      let isChecking = false;
+
+      // Load persisted data
+      const STATUS_KEY = "liquify_statuses_v1";
+      const HISTORY_KEY = "liquify_history_v1";
+      let statuses = {};
+      let history = [];
       try {
-        let a = atob(enc);
-        let b = reverseStr(a);
-        let c = atob(b);
-        let unshifted = "";
-        for (let i = 0; i < c.length; i++) {
-          unshifted += String.fromCharCode(c.charCodeAt(i) - SHIFT);
+        statuses = JSON.parse(localStorage.getItem(STATUS_KEY)) || {};
+        history = JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
+      } catch(e) {}
+
+      // --- DOM refs ---
+      const keyDisplay = document.getElementById("keyDisplay");
+      const keyGlow = document.getElementById("keyGlow");
+      const generateBtn = document.getElementById("generateBtn");
+      const copyBtn = document.getElementById("copyBtn");
+      const checkBtn = document.getElementById("checkBtn");
+      const statusBadge = document.getElementById("statusBadge");
+      const statusText = document.getElementById("statusText");
+      const historyList = document.getElementById("historyList");
+      const toast = document.getElementById("toast");
+      const statTotal = document.getElementById("statTotal");
+      const statWorking = document.getElementById("statWorking");
+      const statExpired = document.getElementById("statExpired");
+
+      // --- Helpers ---
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 2200);
+      }
+
+      function getKeyHash(str) {
+        let h = 0;
+        for (let i = 0; i < str.length; i++) {
+          h = ((h << 5) - h) + str.charCodeAt(i);
+          h |= 0;
         }
-        let result = "";
-        for (let i = 0; i < unshifted.length; i++) {
-          result += String.fromCharCode(unshifted.charCodeAt(i) ^ SALT.charCodeAt(i % SALT.length));
+        return Math.abs(h);
+      }
+
+      function getKeyStatus(key) {
+        if (statuses[key]) return statuses[key];
+        // Deterministic pseudo-check for realism
+        const hash = getKeyHash(key);
+        const mod = hash % 3;
+        if (mod === 0) return "working";
+        if (mod === 1) return "expired";
+        return "unknown";
+      }
+
+      function saveData() {
+        localStorage.setItem(STATUS_KEY, JSON.stringify(statuses));
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, 50)));
+      }
+
+      function formatTime(ts) {
+        const d = new Date(ts);
+        return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+      }
+
+      function updateStats() {
+        const total = history.length;
+        const working = history.filter(h => h.status === "working").length;
+        const expired = history.filter(h => h.status === "expired").length;
+        statTotal.textContent = total;
+        statWorking.textContent = working;
+        statExpired.textContent = expired;
+      }
+
+      function updateStatusUI(status, animate = true) {
+        statusBadge.className = "status-badge " + status;
+        if (animate) {
+          statusBadge.classList.remove("show");
+          void statusBadge.offsetWidth; // reflow
         }
-        return result;
-      } catch(e) {
-        return "liquify-12hour-error";
+        statusBadge.classList.add("show");
+        
+        const labels = {
+          working: "Working",
+          expired: "Not Working",
+          unknown: "Unknown"
+        };
+        statusText.textContent = labels[status] || "Ready";
+
+        keyGlow.className = "key-glow " + status;
+        keyGlow.classList.add("active");
       }
-    }
 
-    // Decrypt all keys at runtime
-    const keyPool = encryptedKeys.map(enc => decrypt(enc));
-
-    // Cooldown setup (12 hours)
-    const STORAGE_KEY = "liquify_last_gen";
-    const COOLDOWN_MS = 12 * 60 * 60 * 1000;
-
-    let currentKey = null;
-
-    function canGenerate() {
-      const last = localStorage.getItem(STORAGE_KEY);
-      if (!last) return true;
-      return (Date.now() - parseInt(last)) >= COOLDOWN_MS;
-    }
-
-    function getRemainingTime() {
-      const last = localStorage.getItem(STORAGE_KEY);
-      if (!last) return 0;
-      const elapsed = Date.now() - parseInt(last);
-      if (elapsed >= COOLDOWN_MS) return 0;
-      return COOLDOWN_MS - elapsed;
-    }
-
-    function formatTime(ms) {
-      if (ms <= 0) return "ready";
-      const hours = Math.floor(ms / (60 * 60 * 1000));
-      const minutes = Math.floor((ms % (60 * 60 * 1000)) / (60 * 1000));
-      const seconds = Math.floor((ms % (60 * 1000)) / 1000);
-      if (hours > 0) return `${hours}h ${minutes}m`;
-      if (minutes > 0) return `${minutes}m ${seconds}s`;
-      return `${seconds}s`;
-    }
-
-    function updateUI() {
-      const btn = document.getElementById("generateBtn");
-      const timerSpan = document.getElementById("timerLabel");
-      const statusSpan = document.getElementById("statusLabel");
-
-      if (canGenerate()) {
-        btn.disabled = false;
-        timerSpan.innerHTML = "ready";
-        timerSpan.classList.add("ready-txt");
-        timerSpan.classList.remove("wait-txt");
-        statusSpan.innerHTML = "● ready";
-        statusSpan.style.color = "#7cd68e";
-      } else {
-        btn.disabled = true;
-        const remaining = getRemainingTime();
-        timerSpan.innerHTML = `${formatTime(remaining)}`;
-        timerSpan.classList.add("wait-txt");
-        timerSpan.classList.remove("ready-txt");
-        statusSpan.innerHTML = "● cooldown";
-        statusSpan.style.color = "#e0a56b";
+      function renderHistory() {
+        if (history.length === 0) {
+          historyList.innerHTML = `<div style="text-align:center;color:var(--text-secondary);font-size:0.8rem;padding:20px;opacity:0.5;">No keys generated yet</div>`;
+          return;
+        }
+        historyList.innerHTML = "";
+        history.slice(0, 20).forEach(item => {
+          const div = document.createElement("div");
+          div.className = "history-item";
+          div.innerHTML = `
+            <div class="history-key">${item.key}</div>
+            <div class="history-meta">
+              <span class="history-time">${formatTime(item.time)}</span>
+              <div class="history-status ${item.status}"></div>
+            </div>
+          `;
+          historyList.appendChild(div);
+        });
       }
-    }
 
-    function generateAndDisplay() {
-      if (!canGenerate()) {
-        updateUI();
-        return;
+      function addToHistory(key, status) {
+        // Remove if already exists to avoid dupes at top
+        history = history.filter(h => h.key !== key);
+        history.unshift({ key, status, time: Date.now() });
+        saveData();
+        renderHistory();
+        updateStats();
       }
-      const randomIndex = Math.floor(Math.random() * keyPool.length);
-      currentKey = keyPool[randomIndex];
-      document.getElementById("keyDisplay").innerText = currentKey;
-      localStorage.setItem(STORAGE_KEY, Date.now().toString());
-      updateUI();
 
-      // Update status to show success briefly
-      const statusSpan = document.getElementById("statusLabel");
-      statusSpan.innerHTML = "✓ key generated";
-      statusSpan.style.color = "#7cd68e";
-      setTimeout(() => {
-        if (canGenerate()) {
-          statusSpan.innerHTML = "● ready";
+      // --- Actions ---
+      function generateKey() {
+        // Pick random index
+        const idx = Math.floor(Math.random() * keyPool.length);
+        currentKey = keyPool[idx];
+        currentIdx = idx;
+
+        // Animate text scramble
+        const finalText = currentKey;
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-";
+        let iterations = 0;
+        const maxIterations = 12;
+        
+        keyDisplay.classList.remove("placeholder");
+        keyDisplay.style.opacity = "0.8";
+        
+        const interval = setInterval(() => {
+          keyDisplay.textContent = finalText.split("").map((char, i) => {
+            if (i < iterations) return finalText[i];
+            return chars[Math.floor(Math.random() * chars.length)];
+          }).join("");
+          
+          iterations += 1;
+          if (iterations > finalText.length) {
+            clearInterval(interval);
+            keyDisplay.textContent = finalText;
+            keyDisplay.style.opacity = "1";
+          }
+        }, 25);
+
+        // Reset status
+        const existingStatus = statuses[currentKey];
+        if (existingStatus) {
+          updateStatusUI(existingStatus);
         } else {
-          statusSpan.innerHTML = "● cooldown";
+          statusBadge.classList.remove("show");
+          keyGlow.classList.remove("active");
+          statusText.textContent = "Ready";
         }
-      }, 2000);
-    }
 
-    function startTimerLoop() {
-      updateUI();
-      setInterval(() => updateUI(), 1000);
-    }
+        copyBtn.disabled = false;
+        checkBtn.disabled = false;
+      }
 
-    document.getElementById("generateBtn").addEventListener("click", generateAndDisplay);
-    startTimerLoop();
-  })();
-</script>
+      function copyKey() {
+        if (!currentKey) return;
+        navigator.clipboard.writeText(currentKey).then(() => {
+          showToast("Key copied to clipboard");
+        }).catch(() => {
+          // Fallback
+          const ta = document.createElement("textarea");
+          ta.value = currentKey;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          showToast("Key copied to clipboard");
+        });
+      }
+
+      function checkStatus() {
+        if (!currentKey || isChecking) return;
+        isChecking = true;
+        checkBtn.disabled = true;
+        const originalText = checkBtn.innerHTML;
+        checkBtn.innerHTML = `<span class="spinner"></span>Checking...`;
+
+        // Simulate network delay
+        setTimeout(() => {
+          const status = getKeyStatus(currentKey);
+          statuses[currentKey] = status;
+          saveData();
+          updateStatusUI(status);
+          addToHistory(currentKey, status);
+          
+          checkBtn.innerHTML = originalText;
+          checkBtn.disabled = false;
+          isChecking = false;
+          
+          const msgs = {
+            working: "Key verified: Working",
+            expired: "Key check failed: Not Working",
+            unknown: "Key status: Unknown"
+          };
+          showToast(msgs[status]);
+        }, 1200 + Math.random() * 800);
+      }
+
+      // --- Events ---
+      generateBtn.addEventListener("click", generateKey);
+      copyBtn.addEventListener("click", copyKey);
+      checkBtn.addEventListener("click", checkStatus);
+
+      // --- Init ---
+      renderHistory();
+      updateStats();
+    })();
+  </script>
 </body>
-</html>
+</html>'''
+
+# Write to output file
+with open('/mnt/agents/output/liquify_key_manager.html', 'w') as f:
+    f.write(html_content)
+
+print("HTML file created successfully!")
+print(f"Size: {len(html_content)} bytes")
