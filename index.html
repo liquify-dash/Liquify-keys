@@ -3,31 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Liquify · 12 Hour Key System</title>
+  <title>Liquify Key System</title>
   <style>
-    :root {
-      --bg: #05060a;
-      --surface: #0d0f17;
-      --border: rgba(255,255,255,0.06);
-      --text: #e8eaf6;
-      --muted: #6b7280;
-      --accent: #10b981;
-      --accent-dim: rgba(16,185,129,0.1);
-      --error: #ef4444;
-      --error-dim: rgba(239,68,68,0.1);
-      --warning: #f59e0b;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
+      background: #020204;
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -35,160 +18,133 @@
       padding: 20px;
     }
 
-    .container {
+    .card {
       width: 100%;
-      max-width: 480px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 32px;
-      box-shadow: 0 0 0 1px rgba(0,0,0,0.5) inset, 0 20px 50px -10px rgba(0,0,0,0.5);
+      max-width: 440px;
+      background: #0a0b10;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px;
+      padding: 36px 28px;
+      position: relative;
     }
 
-    header {
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      padding: 1px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 30%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    /* Header */
+    .header {
       text-align: center;
       margin-bottom: 28px;
     }
 
-    .logo {
-      width: 44px;
-      height: 44px;
-      background: linear-gradient(135deg, var(--accent), #059669);
-      border-radius: 12px;
+    .lock-icon {
+      width: 48px;
+      height: 48px;
       margin: 0 auto 16px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
-      box-shadow: 0 8px 24px -8px rgba(16,185,129,0.4);
+      font-size: 22px;
+      transition: all 0.4s ease;
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.2);
+      color: #f87171;
+    }
+
+    .lock-icon.unlocked {
+      background: rgba(16,185,129,0.1);
+      border-color: rgba(16,185,129,0.2);
+      color: #34d399;
     }
 
     h1 {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: 600;
       letter-spacing: -0.3px;
       margin-bottom: 4px;
     }
 
-    .subtitle {
-      font-size: 0.75rem;
-      color: var(--muted);
-      letter-spacing: 0.3px;
+    .desc {
+      font-size: 0.78rem;
+      color: #64748b;
+      line-height: 1.4;
     }
 
-    /* Gate Status */
-    .gate-status {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      transition: all 0.3s ease;
-    }
-
-    .gate-status.locked {
-      background: var(--error-dim);
-      border: 1px solid rgba(239,68,68,0.2);
-      color: #fca5a5;
-    }
-
-    .gate-status.unlocked {
-      background: var(--accent-dim);
-      border: 1px solid rgba(16,185,129,0.2);
-      color: #6ee7b7;
-    }
-
-    .gate-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: currentColor;
-      box-shadow: 0 0 8px currentColor;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-
-    /* Key Display */
-    .key-box {
-      background: rgba(0,0,0,0.3);
-      border: 1px solid var(--border);
-      border-radius: 16px;
+    /* Key Box */
+    .key-wrap {
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 14px;
       padding: 20px;
       margin-bottom: 16px;
       text-align: center;
-      min-height: 80px;
+      min-height: 72px;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      overflow: hidden;
+      transition: all 0.3s ease;
     }
 
-    .key-box::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, rgba(16,185,129,0.08), transparent 70%);
-      opacity: 0;
-      transition: opacity 0.5s ease;
+    .key-wrap.glow {
+      border-color: rgba(16,185,129,0.15);
+      box-shadow: 0 0 30px -8px rgba(16,185,129,0.1);
     }
 
-    .key-box.active::before {
-      opacity: 1;
-    }
-
-    #keyDisplay {
+    #keyText {
       font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: -0.2px;
+      font-size: 0.82rem;
+      letter-spacing: -0.3px;
       word-break: break-all;
-      line-height: 1.4;
-      color: var(--text);
-      position: relative;
-      z-index: 1;
+      line-height: 1.5;
+      color: #f1f5f9;
+      width: 100%;
     }
 
-    #keyDisplay.placeholder {
-      color: var(--muted);
+    #keyText.placeholder {
+      color: #475569;
       font-family: inherit;
       font-size: 0.8rem;
     }
 
     /* Buttons */
-    .btn-group {
+    .actions {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
 
     button {
+      width: 100%;
       appearance: none;
       border: none;
-      background: rgba(255,255,255,0.05);
-      color: var(--text);
+      background: rgba(255,255,255,0.04);
+      color: #e2e8f0;
       font-family: inherit;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
-      padding: 14px 20px;
-      border-radius: 12px;
+      padding: 13px;
+      border-radius: 10px;
       cursor: pointer;
       transition: all 0.2s ease;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(255,255,255,0.06);
       position: relative;
       overflow: hidden;
     }
 
     button:hover:not(:disabled) {
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.07);
       transform: translateY(-1px);
     }
 
@@ -197,181 +153,144 @@
     }
 
     button:disabled {
-      opacity: 0.4;
+      opacity: 0.35;
       cursor: not-allowed;
     }
 
-    .btn-primary {
-      background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.05));
-      border-color: rgba(16,185,129,0.25);
-      color: #d1fae5;
+    .btn-main {
+      background: linear-gradient(180deg, rgba(59,130,246,0.15), rgba(59,130,246,0.05));
+      border-color: rgba(59,130,246,0.2);
+      color: #bfdbfe;
     }
 
-    .btn-primary:hover:not(:disabled) {
-      background: linear-gradient(135deg, rgba(16,185,129,0.25), rgba(16,185,129,0.1));
-      border-color: rgba(16,185,129,0.4);
-      box-shadow: 0 8px 24px -8px rgba(16,185,129,0.3);
+    .btn-main:hover:not(:disabled) {
+      background: linear-gradient(180deg, rgba(59,130,246,0.25), rgba(59,130,246,0.1));
+      border-color: rgba(59,130,246,0.35);
     }
 
-    .btn-gate {
-      background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(59,130,246,0.05));
-      border-color: rgba(59,130,246,0.25);
-      color: #dbeafe;
+    .btn-generate {
+      background: linear-gradient(180deg, rgba(16,185,129,0.15), rgba(16,185,129,0.05));
+      border-color: rgba(16,185,129,0.2);
+      color: #a7f3d0;
     }
 
-    .btn-gate:hover:not(:disabled) {
-      background: linear-gradient(135deg, rgba(59,130,246,0.25), rgba(59,130,246,0.1));
-      border-color: rgba(59,130,246,0.4);
-      box-shadow: 0 8px 24px -8px rgba(59,130,246,0.3);
+    .btn-generate:hover:not(:disabled) {
+      background: linear-gradient(180deg, rgba(16,185,129,0.25), rgba(16,185,129,0.1));
+      border-color: rgba(16,185,129,0.35);
     }
 
-    .btn-secondary {
-      background: transparent;
+    .row {
+      display: flex;
+      gap: 10px;
     }
+
+    .row button { flex: 1; }
 
     /* Status */
-    .status-row {
+    .status {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       margin-top: 16px;
-      min-height: 24px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #475569;
+      min-height: 20px;
     }
 
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 100px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      opacity: 0;
-      transform: translateY(4px);
-      transition: all 0.3s ease;
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 8px currentColor;
     }
 
-    .status-badge.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .status.working { color: #34d399; }
+    .status.expired { color: #f87171; }
+    .status.unknown { color: #fbbf24; }
 
-    .status-badge.working {
-      background: rgba(16,185,129,0.1);
-      color: #34d399;
-      border: 1px solid rgba(16,185,129,0.2);
-    }
-
-    .status-badge.expired {
-      background: rgba(239,68,68,0.1);
+    /* Error / Verify msg */
+    .msg {
+      text-align: center;
+      font-size: 0.78rem;
       color: #f87171;
-      border: 1px solid rgba(239,68,68,0.2);
+      margin-top: 12px;
+      min-height: 18px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
-    .status-badge.unknown {
-      background: rgba(245,158,11,0.1);
-      color: #fbbf24;
-      border: 1px solid rgba(245,158,11,0.2);
-    }
+    .msg.show { opacity: 1; }
 
     /* Toast */
     .toast {
       position: fixed;
       bottom: 24px;
       left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: rgba(13,15,23,0.95);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 12px 20px;
+      transform: translateX(-50%) translateY(80px);
+      background: #0f111a;
+      border: 1px solid rgba(255,255,255,0.06);
+      color: #e2e8f0;
+      padding: 10px 20px;
       border-radius: 10px;
       font-size: 0.8rem;
       font-weight: 500;
       z-index: 100;
       opacity: 0;
-      transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+      transition: all 0.3s ease;
       pointer-events: none;
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
     }
 
     .toast.show {
       transform: translateX(-50%) translateY(0);
       opacity: 1;
     }
-
-    /* Loading */
-    .spinner {
-      width: 14px;
-      height: 14px;
-      border: 2px solid rgba(255,255,255,0.1);
-      border-top-color: currentColor;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      display: inline-block;
-      margin-right: 6px;
-      vertical-align: middle;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="logo">◆</div>
+  <div class="card">
+    <div class="header">
+      <div class="lock-icon" id="lockIcon">🔒</div>
       <h1>Liquify 12 Hour Key System</h1>
-      <p class="subtitle">Linkvertise Integrated Access</p>
-    </header>
-
-    <div class="gate-status locked" id="gateStatus">
-      <span>Gate Required</span>
-      <div class="gate-dot"></div>
+      <p class="desc" id="descText">Complete the Linkvertise gate to generate a key</p>
     </div>
 
-    <div class="key-box" id="keyBox">
-      <div id="keyDisplay" class="placeholder">Complete gate to generate key</div>
+    <div class="key-wrap" id="keyWrap">
+      <div id="keyText" class="placeholder">Locked — complete gate below</div>
     </div>
 
-    <div class="btn-group" id="gateActions">
-      <button class="btn-gate" id="goToGateBtn">
-        <span>🔒</span> Go to Linkvertise
-      </button>
+    <div class="actions" id="gateView">
+      <button class="btn-main" id="gateBtn">Complete Gate</button>
     </div>
 
-    <div class="btn-group" id="keyActions" style="display: none;">
-      <button class="btn-primary" id="generateBtn">Generate Key</button>
-      <div style="display: flex; gap: 10px;">
-        <button class="btn-secondary" id="copyBtn" style="flex: 1;" disabled>Copy</button>
-        <button class="btn-secondary" id="checkBtn" style="flex: 1;" disabled>Check</button>
+    <div class="actions" id="keyView" style="display:none;">
+      <button class="btn-generate" id="genBtn">Generate Key</button>
+      <div class="row">
+        <button id="copyBtn" disabled>Copy</button>
+        <button id="checkBtn" disabled>Check</button>
       </div>
-      <button class="btn-gate" id="renewBtn" style="margin-top: 6px;">
-        <span>↻</span> Renew Gate
-      </button>
+      <button class="btn-main" id="renewBtn" style="margin-top:4px;">Renew Gate</button>
     </div>
 
-    <div class="status-row">
-      <div class="status-badge" id="statusBadge">
-        <span>●</span>
-        <span id="statusText">Ready</span>
-      </div>
-    </div>
+    <div class="status" id="statusRow"></div>
+    <div class="msg" id="msg"></div>
   </div>
 
   <div class="toast" id="toast"></div>
 
   <script>
     (function() {
-      // Configuration
-      const LINKVERTISE_URL = "https://link-target.net/4061527/7unSCoaM861q";
-      const GATE_KEY = "lq_gate_unlocked";
-      const STATUS_KEY = "lq_key_statuses";
+      const LINKVERTISE = "https://link-target.net/4061527/7unSCoaM861q";
+      const STORE = {
+        gate: "lq_gate_v2",
+        status: "lq_status_v2"
+      };
+      const MIN_TIME = 8000; // 8 seconds minimum on Linkvertise
 
-      // Encrypted key pool (100 keys, each with unique salt and shift)
+      // Encrypted keys (100)
       const encryptedKeys = [
         "XDsNeFZlEjEJSHQhWkl+BCUfYl8LHDYfREcgBgQDHwoMW0dDGgI=",
         "TGgbJkR/Xhs8SwhHJlhMZEpII05sChYwH0VIIQcGBCALDVtIRBsD",
@@ -501,197 +420,204 @@
         "a1kwJnZaZw0wTm1PK1xjhEhEDoZmgCYyH0dLJQsOCiMPEWNORx8H"
       ];
 
-      // Decrypt function
       function decrypt(enc, idx) {
         const salt = "lq" + String(idx).padStart(3, "0");
         const shift = (idx % 12) + 2;
         try {
           let a = atob(enc);
           let b = a.split("").reverse().join("");
-          let unshifted = "";
-          for (let i = 0; i < b.length; i++) {
-            unshifted += String.fromCharCode((b.charCodeAt(i) - shift + 256) % 256);
-          }
-          let result = "";
-          for (let i = 0; i < unshifted.length; i++) {
-            result += String.fromCharCode(unshifted.charCodeAt(i) ^ salt.charCodeAt(i % salt.length));
-          }
-          return result;
+          let u = "", r = "";
+          for (let i = 0; i < b.length; i++) u += String.fromCharCode((b.charCodeAt(i) - shift + 256) % 256);
+          for (let i = 0; i < u.length; i++) r += String.fromCharCode(u.charCodeAt(i) ^ salt.charCodeAt(i % salt.length));
+          return r;
         } catch(e) { return "error"; }
       }
 
       // State
       let currentKey = null;
       let keyUsed = false;
-      let statuses = JSON.parse(localStorage.getItem(STATUS_KEY) || "{}");
+      let statuses = JSON.parse(localStorage.getItem(STORE.status) || "{}");
 
-      // DOM refs
-      const gateStatus = document.getElementById("gateStatus");
-      const gateActions = document.getElementById("gateActions");
-      const keyActions = document.getElementById("keyActions");
-      const keyDisplay = document.getElementById("keyDisplay");
-      const keyBox = document.getElementById("keyBox");
-      const generateBtn = document.getElementById("generateBtn");
-      const copyBtn = document.getElementById("copyBtn");
-      const checkBtn = document.getElementById("checkBtn");
-      const statusBadge = document.getElementById("statusBadge");
-      const statusText = document.getElementById("statusText");
-      const toast = document.getElementById("toast");
+      // DOM
+      const el = {
+        lock: document.getElementById("lockIcon"),
+        desc: document.getElementById("descText"),
+        keyWrap: document.getElementById("keyWrap"),
+        keyText: document.getElementById("keyText"),
+        gateView: document.getElementById("gateView"),
+        keyView: document.getElementById("keyView"),
+        genBtn: document.getElementById("genBtn"),
+        copyBtn: document.getElementById("copyBtn"),
+        checkBtn: document.getElementById("checkBtn"),
+        statusRow: document.getElementById("statusRow"),
+        msg: document.getElementById("msg"),
+        toast: document.getElementById("toast")
+      };
 
-      // Check gate state
-      function isGateOpen() {
-        return localStorage.getItem(GATE_KEY) === "1";
+      // Verify gate on load
+      function verifyGate() {
+        const pending = sessionStorage.getItem("lq_pending");
+        if (!pending) return false;
+        
+        const start = parseInt(pending, 10);
+        const elapsed = Date.now() - start;
+        const ref = document.referrer;
+        
+        // Must have spent minimum time AND come from Linkvertise domain
+        const fromLV = /linkvertise|link-target|link-to\.net/i.test(ref);
+        const enoughTime = elapsed >= MIN_TIME;
+        
+        if (fromLV && enoughTime) {
+          sessionStorage.removeItem("lq_pending");
+          localStorage.setItem(STORE.gate, "1");
+          return true;
+        }
+        
+        if (elapsed > 300000) { // 5 min timeout
+          sessionStorage.removeItem("lq_pending");
+        }
+        return false;
       }
 
-      function openGate() {
-        localStorage.setItem(GATE_KEY, "1");
+      function isOpen() { return localStorage.getItem(STORE.gate) === "1"; }
+      function closeGate() { localStorage.removeItem(STORE.gate); }
+
+      function showToast(m) {
+        el.toast.textContent = m;
+        el.toast.classList.add("show");
+        setTimeout(() => el.toast.classList.remove("show"), 2000);
       }
 
-      function closeGate() {
-        localStorage.removeItem(GATE_KEY);
+      function showMsg(m) {
+        el.msg.textContent = m;
+        el.msg.classList.add("show");
+        setTimeout(() => el.msg.classList.remove("show"), 4000);
       }
 
       function updateUI() {
-        if (isGateOpen()) {
-          gateStatus.className = "gate-status unlocked";
-          gateStatus.innerHTML = "<span>Gate Open</span><div class='gate-dot'></div>";
-          gateActions.style.display = "none";
-          keyActions.style.display = "flex";
+        const open = isOpen();
+        if (open) {
+          el.lock.textContent = "🔓";
+          el.lock.classList.add("unlocked");
+          el.desc.textContent = "Gate open — generate your key below";
+          el.gateView.style.display = "none";
+          el.keyView.style.display = "flex";
           if (keyUsed) {
-            generateBtn.disabled = true;
-            generateBtn.textContent = "Key Generated";
-            keyDisplay.textContent = "Renew gate to generate another key";
-            keyDisplay.className = "placeholder";
-            keyBox.classList.remove("active");
+            el.genBtn.disabled = true;
+            el.genBtn.textContent = "Generated";
+            el.keyText.textContent = "Renew gate to generate another";
+            el.keyText.className = "placeholder";
+            el.keyWrap.classList.remove("glow");
           } else {
-            generateBtn.disabled = false;
-            generateBtn.textContent = "Generate Key";
+            el.genBtn.disabled = false;
+            el.genBtn.textContent = "Generate Key";
           }
         } else {
-          gateStatus.className = "gate-status locked";
-          gateStatus.innerHTML = "<span>Gate Required</span><div class='gate-dot'></div>";
-          gateActions.style.display = "flex";
-          keyActions.style.display = "none";
+          el.lock.textContent = "🔒";
+          el.lock.classList.remove("unlocked");
+          el.desc.textContent = "Complete the Linkvertise gate to generate a key";
+          el.gateView.style.display = "flex";
+          el.keyView.style.display = "none";
           keyUsed = false;
+          currentKey = null;
+          el.copyBtn.disabled = true;
+          el.checkBtn.disabled = true;
+          el.statusRow.innerHTML = "";
+          el.statusRow.className = "status";
         }
       }
 
-      // Toast
-      function showToast(msg) {
-        toast.textContent = msg;
-        toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 2000);
+      // Gate actions
+      function goToGate() {
+        sessionStorage.setItem("lq_pending", Date.now().toString());
+        window.location.href = LINKVERTISE;
       }
 
-      // Generate key
-      function generateKey() {
-        if (!isGateOpen() || keyUsed) return;
-        
+      function renewGate() {
+        closeGate();
+        showToast("Renewing gate...");
+        setTimeout(goToGate, 600);
+      }
+
+      // Key actions
+      function generate() {
+        if (!isOpen() || keyUsed) return;
         const idx = Math.floor(Math.random() * encryptedKeys.length);
         currentKey = decrypt(encryptedKeys[idx], idx);
         
-        // Scramble animation
+        // Scramble
         const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-";
-        let iter = 0;
-        keyDisplay.classList.remove("placeholder");
-        keyBox.classList.add("active");
+        let it = 0;
+        el.keyText.classList.remove("placeholder");
+        el.keyWrap.classList.add("glow");
         
-        const interval = setInterval(() => {
-          keyDisplay.textContent = currentKey.split("").map((c, i) => {
-            return i < iter ? c : chars[Math.floor(Math.random() * chars.length)];
-          }).join("");
-          iter += 2;
-          if (iter >= currentKey.length) {
-            clearInterval(interval);
-            keyDisplay.textContent = currentKey;
+        const iv = setInterval(() => {
+          el.keyText.textContent = currentKey.split("").map((c, i) => 
+            i < it ? c : chars[Math.floor(Math.random() * chars.length)]
+          ).join("");
+          it += 1.5;
+          if (it >= currentKey.length) {
+            clearInterval(iv);
+            el.keyText.textContent = currentKey;
           }
-        }, 20);
+        }, 18);
 
         keyUsed = true;
-        copyBtn.disabled = false;
-        checkBtn.disabled = false;
-        statusBadge.classList.remove("show");
+        el.copyBtn.disabled = false;
+        el.checkBtn.disabled = false;
         updateUI();
         showToast("Key generated");
       }
 
-      // Copy
       function copyKey() {
         if (!currentKey) return;
-        navigator.clipboard.writeText(currentKey).then(() => {
-          showToast("Copied to clipboard");
-        }).catch(() => {
-          const ta = document.createElement("textarea");
-          ta.value = currentKey;
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand("copy");
-          document.body.removeChild(ta);
-          showToast("Copied to clipboard");
-        });
+        navigator.clipboard.writeText(currentKey).then(() => showToast("Copied"))
+          .catch(() => {
+            const t = document.createElement("textarea");
+            t.value = currentKey;
+            document.body.appendChild(t);
+            t.select();
+            document.execCommand("copy");
+            document.body.removeChild(t);
+            showToast("Copied");
+          });
       }
 
-      // Check status
       function checkStatus() {
         if (!currentKey) return;
-        checkBtn.disabled = true;
-        checkBtn.innerHTML = "<span class='spinner'></span>Checking...";
+        el.checkBtn.disabled = true;
+        el.checkBtn.innerHTML = "<span style='display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,0.1);border-top-color:currentColor;border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:6px;'></span>Checking";
         
         setTimeout(() => {
-          const hash = currentKey.split("").reduce((a, c) => ((a << 5) - a + c.charCodeAt(0)) | 0, 0);
-          const mod = Math.abs(hash) % 3;
-          const status = mod === 0 ? "working" : mod === 1 ? "expired" : "unknown";
+          const h = currentKey.split("").reduce((a,c) => ((a<<5)-a+c.charCodeAt(0))|0, 0);
+          const st = Math.abs(h) % 3 === 0 ? "working" : Math.abs(h) % 3 === 1 ? "expired" : "unknown";
+          statuses[currentKey] = st;
+          localStorage.setItem(STORE.status, JSON.stringify(statuses));
           
-          statuses[currentKey] = status;
-          localStorage.setItem(STATUS_KEY, JSON.stringify(statuses));
+          el.statusRow.className = "status " + st;
+          el.statusRow.innerHTML = `<div class="status-dot"></div><span>${st === "working" ? "Working" : st === "expired" ? "Not Working" : "Unknown"}</span>`;
           
-          statusBadge.className = "status-badge " + status;
-          statusText.textContent = status === "working" ? "Working" : status === "expired" ? "Not Working" : "Unknown";
-          statusBadge.classList.add("show");
-          
-          checkBtn.innerHTML = "Check";
-          checkBtn.disabled = false;
-          
-          const msgs = { working: "Status: Working", expired: "Status: Not Working", unknown: "Status: Unknown" };
-          showToast(msgs[status]);
-        }, 800);
+          el.checkBtn.innerHTML = "Check";
+          el.checkBtn.disabled = false;
+          showToast(st === "working" ? "Status: Working" : st === "expired" ? "Status: Not Working" : "Status: Unknown");
+        }, 900);
       }
 
-      // Go to gate
-      function goToGate() {
-        // Set a flag to auto-open on return
-        sessionStorage.setItem("lq_returning", "1");
-        window.location.href = LINKVERTISE_URL;
-      }
-
-      // Renew gate
-      function renewGate() {
-        closeGate();
-        keyUsed = false;
-        currentKey = null;
-        copyBtn.disabled = true;
-        checkBtn.disabled = true;
-        statusBadge.classList.remove("show");
-        updateUI();
-        showToast("Gate closed — redirecting...");
-        setTimeout(goToGate, 800);
-      }
-
-      // Check if returning from Linkvertise
-      if (sessionStorage.getItem("lq_returning") === "1") {
-        sessionStorage.removeItem("lq_returning");
-        openGate();
-        showToast("Gate completed");
-      }
-
-      // Event listeners
-      document.getElementById("goToGateBtn").addEventListener("click", goToGate);
+      // Events
+      document.getElementById("gateBtn").addEventListener("click", goToGate);
       document.getElementById("renewBtn").addEventListener("click", renewGate);
-      generateBtn.addEventListener("click", generateKey);
-      copyBtn.addEventListener("click", copyKey);
-      checkBtn.addEventListener("click", checkStatus);
+      el.genBtn.addEventListener("click", generate);
+      el.copyBtn.addEventListener("click", copyKey);
+      el.checkBtn.addEventListener("click", checkStatus);
 
       // Init
+      if (verifyGate()) {
+        showToast("Gate verified — you're in");
+      } else if (sessionStorage.getItem("lq_pending") && !isOpen()) {
+        showMsg("Gate not verified. Complete Linkvertise fully and return.");
+        sessionStorage.removeItem("lq_pending");
+      }
+      
       updateUI();
     })();
   </script>
