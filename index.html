@@ -3,23 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Liquify · Premium Key Manager</title>
+  <title>Liquify · 12 Hour Key System</title>
   <style>
     :root {
-      --bg-deep: #03040a;
-      --bg-card: rgba(255, 255, 255, 0.03);
-      --border: rgba(255, 255, 255, 0.06);
-      --text-primary: #f0f4ff;
-      --text-secondary: #8b92b4;
-      --accent: #00d4aa;
-      --accent-glow: rgba(0, 212, 170, 0.15);
-      --working: #34d399;
-      --working-glow: rgba(52, 211, 153, 0.15);
-      --expired: #f87171;
-      --expired-glow: rgba(248, 113, 113, 0.15);
-      --unknown: #fbbf24;
-      --unknown-glow: rgba(251, 191, 36, 0.15);
-      --glass: rgba(255, 255, 255, 0.02);
+      --bg: #05060a;
+      --surface: #0d0f17;
+      --border: rgba(255,255,255,0.06);
+      --text: #e8eaf6;
+      --muted: #6b7280;
+      --accent: #10b981;
+      --accent-dim: rgba(16,185,129,0.1);
+      --error: #ef4444;
+      --error-dim: rgba(239,68,68,0.1);
+      --warning: #f59e0b;
     }
 
     * {
@@ -29,325 +25,233 @@
     }
 
     body {
-      background: var(--bg-deep);
-      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
-      color: var(--text-primary);
-      overflow-x: hidden;
-      position: relative;
+      padding: 20px;
     }
 
-    /* Animated ambient background */
-    .ambient {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.4;
-      animation: float 20s ease-in-out infinite;
-    }
-
-    .orb-1 {
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(0,212,170,0.15), transparent 70%);
-      top: -10%;
-      left: -10%;
-      animation-delay: 0s;
-    }
-
-    .orb-2 {
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(99,102,241,0.12), transparent 70%);
-      bottom: -5%;
-      right: -5%;
-      animation-delay: -5s;
-    }
-
-    .orb-3 {
-      width: 250px;
-      height: 250px;
-      background: radial-gradient(circle, rgba(236,72,153,0.1), transparent 70%);
-      top: 40%;
-      left: 60%;
-      animation-delay: -10s;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(30px, -30px) scale(1.1); }
-      66% { transform: translate(-20px, 20px) scale(0.95); }
-    }
-
-    /* Card */
-    .card {
-      position: relative;
-      z-index: 1;
+    .container {
       width: 100%;
-      max-width: 640px;
-      background: var(--bg-card);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      max-width: 480px;
+      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 28px;
-      padding: 40px 36px;
-      box-shadow: 
-        0 0 0 1px rgba(255,255,255,0.02) inset,
-        0 20px 60px -15px rgba(0,0,0,0.6),
-        0 0 80px -20px rgba(0,212,170,0.08);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.5) inset, 0 20px 50px -10px rgba(0,0,0,0.5);
     }
 
-    .card:hover {
-      box-shadow: 
-        0 0 0 1px rgba(255,255,255,0.04) inset,
-        0 20px 60px -15px rgba(0,0,0,0.6),
-        0 0 100px -20px rgba(0,212,170,0.12);
-    }
-
-    /* Header */
     header {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
 
-    .brand {
-      display: inline-flex;
+    .logo {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--accent), #059669);
+      border-radius: 12px;
+      margin: 0 auto 16px;
+      display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 8px 24px -8px rgba(16,185,129,0.4);
     }
 
-    .brand-dot {
-      width: 8px;
-      height: 8px;
+    h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.3px;
+    }
+
+    /* Gate Status */
+    .gate-status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .gate-status.locked {
+      background: var(--error-dim);
+      border: 1px solid rgba(239,68,68,0.2);
+      color: #fca5a5;
+    }
+
+    .gate-status.unlocked {
+      background: var(--accent-dim);
+      border: 1px solid rgba(16,185,129,0.2);
+      color: #6ee7b7;
+    }
+
+    .gate-dot {
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 12px var(--accent-glow);
-      animation: pulse 2s ease-in-out infinite;
+      background: currentColor;
+      box-shadow: 0 0 8px currentColor;
+      animation: pulse 2s infinite;
     }
 
     @keyframes pulse {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
-    h1 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .subtitle {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      font-weight: 450;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
+      50% { opacity: 0.4; }
     }
 
     /* Key Display */
-    .key-container {
-      position: relative;
-      margin-bottom: 20px;
-    }
-
-    .key-wrapper {
-      background: linear-gradient(180deg, rgba(0,0,0,0.4), rgba(0,0,0,0.3));
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 20px;
-      padding: 6px;
+    .key-box {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      text-align: center;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
       overflow: hidden;
     }
 
-    .key-wrapper::before {
+    .key-box::before {
       content: '';
       position: absolute;
       inset: 0;
-      border-radius: 20px;
-      padding: 1px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent 40%, transparent 60%, rgba(255,255,255,0.05));
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-    }
-
-    .key-glow {
-      position: absolute;
-      inset: -1px;
-      border-radius: 20px;
+      background: radial-gradient(circle at center, rgba(16,185,129,0.08), transparent 70%);
       opacity: 0;
       transition: opacity 0.5s ease;
-      pointer-events: none;
     }
 
-    .key-glow.active {
+    .key-box.active::before {
       opacity: 1;
     }
 
-    .key-glow.working {
-      background: radial-gradient(circle at center, var(--working-glow), transparent 70%);
-    }
-
-    .key-glow.expired {
-      background: radial-gradient(circle at center, var(--expired-glow), transparent 70%);
-    }
-
-    .key-glow.unknown {
-      background: radial-gradient(circle at center, var(--unknown-glow), transparent 70%);
-    }
-
     #keyDisplay {
+      font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: -0.2px;
+      word-break: break-all;
+      line-height: 1.4;
+      color: var(--text);
       position: relative;
       z-index: 1;
-      font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
-      font-size: 0.9rem;
-      font-weight: 500;
-      letter-spacing: -0.3px;
-      color: var(--text-primary);
-      background: rgba(0,0,0,0.2);
-      padding: 20px 16px;
-      border-radius: 14px;
-      text-align: center;
-      word-break: break-all;
-      line-height: 1.5;
-      min-height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
     }
 
     #keyDisplay.placeholder {
-      color: var(--text-secondary);
-      opacity: 0.6;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.8rem;
     }
 
     /* Buttons */
-    .actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+    .btn-group {
+      display: flex;
+      flex-direction: column;
       gap: 10px;
-      margin-bottom: 20px;
     }
 
     button {
       appearance: none;
       border: none;
-      background: var(--glass);
-      color: var(--text-primary);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
       font-family: inherit;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       font-weight: 600;
-      padding: 12px 16px;
+      padding: 14px 20px;
       border-radius: 12px;
       cursor: pointer;
       transition: all 0.2s ease;
+      border: 1px solid var(--border);
       position: relative;
       overflow: hidden;
-      border: 1px solid var(--border);
-      letter-spacing: -0.2px;
     }
 
-    button::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
-
-    button:hover::before {
-      opacity: 1;
-    }
-
-    button:hover {
-      transform: translateY(-1px);
+    button:hover:not(:disabled) {
+      background: rgba(255,255,255,0.08);
       border-color: rgba(255,255,255,0.12);
-      box-shadow: 0 8px 24px -8px rgba(0,0,0,0.4);
+      transform: translateY(-1px);
     }
 
-    button:active {
-      transform: translateY(0) scale(0.98);
+    button:active:not(:disabled) {
+      transform: translateY(0);
     }
 
     button:disabled {
       opacity: 0.4;
       cursor: not-allowed;
-      transform: none;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, rgba(0,212,170,0.15), rgba(0,212,170,0.05));
-      border-color: rgba(0,212,170,0.2);
-      color: #e0fff7;
+      background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.05));
+      border-color: rgba(16,185,129,0.25);
+      color: #d1fae5;
     }
 
-    .btn-primary:hover {
-      background: linear-gradient(135deg, rgba(0,212,170,0.25), rgba(0,212,170,0.1));
-      border-color: rgba(0,212,170,0.35);
-      box-shadow: 0 8px 24px -8px rgba(0,212,170,0.25);
+    .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, rgba(16,185,129,0.25), rgba(16,185,129,0.1));
+      border-color: rgba(16,185,129,0.4);
+      box-shadow: 0 8px 24px -8px rgba(16,185,129,0.3);
     }
 
-    .btn-check {
-      background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(99,102,241,0.05));
-      border-color: rgba(99,102,241,0.2);
-      color: #e0e0ff;
+    .btn-gate {
+      background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(59,130,246,0.05));
+      border-color: rgba(59,130,246,0.25);
+      color: #dbeafe;
     }
 
-    .btn-check:hover {
-      background: linear-gradient(135deg, rgba(99,102,241,0.25), rgba(99,102,241,0.1));
-      border-color: rgba(99,102,241,0.35);
-      box-shadow: 0 8px 24px -8px rgba(99,102,241,0.25);
+    .btn-gate:hover:not(:disabled) {
+      background: linear-gradient(135deg, rgba(59,130,246,0.25), rgba(59,130,246,0.1));
+      border-color: rgba(59,130,246,0.4);
+      box-shadow: 0 8px 24px -8px rgba(59,130,246,0.3);
     }
 
-    .btn-copy {
-      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+    .btn-secondary {
+      background: transparent;
     }
 
-    /* Status Row */
+    /* Status */
     .status-row {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      margin-bottom: 28px;
-      min-height: 32px;
+      gap: 8px;
+      margin-top: 16px;
+      min-height: 24px;
     }
 
     .status-badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
+      gap: 6px;
+      padding: 4px 10px;
       border-radius: 100px;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 600;
-      letter-spacing: 0.3px;
       text-transform: uppercase;
-      border: 1px solid transparent;
-      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
       opacity: 0;
       transform: translateY(4px);
+      transition: all 0.3s ease;
     }
 
     .status-badge.show {
@@ -356,192 +260,41 @@
     }
 
     .status-badge.working {
-      background: rgba(52, 211, 153, 0.1);
-      color: var(--working);
-      border-color: rgba(52, 211, 153, 0.2);
-      box-shadow: 0 0 20px -5px var(--working-glow);
+      background: rgba(16,185,129,0.1);
+      color: #34d399;
+      border: 1px solid rgba(16,185,129,0.2);
     }
 
     .status-badge.expired {
-      background: rgba(248, 113, 113, 0.1);
-      color: var(--expired);
-      border-color: rgba(248, 113, 113, 0.2);
-      box-shadow: 0 0 20px -5px var(--expired-glow);
+      background: rgba(239,68,68,0.1);
+      color: #f87171;
+      border: 1px solid rgba(239,68,68,0.2);
     }
 
     .status-badge.unknown {
-      background: rgba(251, 191, 36, 0.1);
-      color: var(--unknown);
-      border-color: rgba(251, 191, 36, 0.2);
-      box-shadow: 0 0 20px -5px var(--unknown-glow);
+      background: rgba(245,158,11,0.1);
+      color: #fbbf24;
+      border: 1px solid rgba(245,158,11,0.2);
     }
-
-    .status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    .status-badge.working .status-dot { background: var(--working); box-shadow: 0 0 8px var(--working); }
-    .status-badge.expired .status-dot { background: var(--expired); box-shadow: 0 0 8px var(--expired); }
-    .status-badge.unknown .status-dot { background: var(--unknown); box-shadow: 0 0 8px var(--unknown); }
-
-    /* Stats */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-
-    .stat {
-      background: var(--glass);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-
-    .stat:hover {
-      border-color: rgba(255,255,255,0.1);
-      transform: translateY(-2px);
-    }
-
-    .stat-value {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-
-    .stat-label {
-      font-size: 0.65rem;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      font-weight: 600;
-    }
-
-    /* History */
-    .history-title {
-      font-size: 0.7rem;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 600;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .history-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, var(--border), transparent);
-    }
-
-    .history-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      max-height: 240px;
-      overflow-y: auto;
-      padding-right: 4px;
-    }
-
-    .history-list::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .history-list::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .history-list::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.1);
-      border-radius: 4px;
-    }
-
-    .history-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 12px;
-      background: var(--glass);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font-size: 0.78rem;
-      transition: all 0.2s ease;
-      animation: slideIn 0.3s ease;
-    }
-
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(-10px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-
-    .history-item:hover {
-      border-color: rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.04);
-    }
-
-    .history-key {
-      font-family: 'SF Mono', monospace;
-      color: var(--text-secondary);
-      word-break: break-all;
-      flex: 1;
-      margin-right: 12px;
-      font-size: 0.75rem;
-    }
-
-    .history-meta {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
-    .history-time {
-      font-size: 0.65rem;
-      color: var(--text-secondary);
-      opacity: 0.7;
-    }
-
-    .history-status {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .history-status.working { background: var(--working); box-shadow: 0 0 6px var(--working); }
-    .history-status.expired { background: var(--expired); box-shadow: 0 0 6px var(--expired); }
-    .history-status.unknown { background: var(--unknown); box-shadow: 0 0 6px var(--unknown); }
 
     /* Toast */
     .toast {
       position: fixed;
-      bottom: 28px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%) translateY(100px);
-      background: rgba(15, 17, 28, 0.95);
+      background: rgba(13,15,23,0.95);
       backdrop-filter: blur(12px);
       border: 1px solid var(--border);
-      color: var(--text-primary);
-      padding: 12px 24px;
-      border-radius: 12px;
-      font-size: 0.85rem;
+      color: var(--text);
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 0.8rem;
       font-weight: 500;
       z-index: 100;
       opacity: 0;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
       pointer-events: none;
-      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
     }
 
     .toast.show {
@@ -549,7 +302,7 @@
       opacity: 1;
     }
 
-    /* Loading spinner */
+    /* Loading */
     .spinner {
       width: 14px;
       height: 14px;
@@ -565,81 +318,60 @@
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-
-    /* Responsive */
-    @media (max-width: 480px) {
-      .card { padding: 28px 20px; }
-      .actions { grid-template-columns: 1fr; }
-      h1 { font-size: 1.25rem; }
-      #keyDisplay { font-size: 0.8rem; padding: 16px 12px; }
-    }
   </style>
 </head>
 <body>
-  <div class="ambient">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-  </div>
-
-  <main class="card">
+  <div class="container">
     <header>
-      <div class="brand">
-        <div class="brand-dot"></div>
-        <h1>Liquify Key Manager</h1>
-      </div>
-      <p class="subtitle">Premium Access Key System</p>
+      <div class="logo">◆</div>
+      <h1>Liquify 12 Hour Key System</h1>
+      <p class="subtitle">Linkvertise Integrated Access</p>
     </header>
 
-    <div class="key-container">
-      <div class="key-wrapper">
-        <div class="key-glow" id="keyGlow"></div>
-        <div id="keyDisplay" class="placeholder">Press generate to reveal key</div>
-      </div>
+    <div class="gate-status locked" id="gateStatus">
+      <span>Gate Required</span>
+      <div class="gate-dot"></div>
     </div>
 
-    <div class="actions">
-      <button id="generateBtn" class="btn-primary">Generate Key</button>
-      <button id="copyBtn" class="btn-copy" disabled>Copy Key</button>
-      <button id="checkBtn" class="btn-check" disabled>Check Status</button>
+    <div class="key-box" id="keyBox">
+      <div id="keyDisplay" class="placeholder">Complete gate to generate key</div>
+    </div>
+
+    <div class="btn-group" id="gateActions">
+      <button class="btn-gate" id="goToGateBtn">
+        <span>🔒</span> Go to Linkvertise
+      </button>
+    </div>
+
+    <div class="btn-group" id="keyActions" style="display: none;">
+      <button class="btn-primary" id="generateBtn">Generate Key</button>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn-secondary" id="copyBtn" style="flex: 1;" disabled>Copy</button>
+        <button class="btn-secondary" id="checkBtn" style="flex: 1;" disabled>Check</button>
+      </div>
+      <button class="btn-gate" id="renewBtn" style="margin-top: 6px;">
+        <span>↻</span> Renew Gate
+      </button>
     </div>
 
     <div class="status-row">
       <div class="status-badge" id="statusBadge">
-        <span class="status-dot"></span>
+        <span>●</span>
         <span id="statusText">Ready</span>
       </div>
     </div>
-
-    <div class="stats">
-      <div class="stat">
-        <div class="stat-value" id="statTotal">0</div>
-        <div class="stat-label">Generated</div>
-      </div>
-      <div class="stat">
-        <div class="stat-value" id="statWorking">0</div>
-        <div class="stat-label">Working</div>
-      </div>
-      <div class="stat">
-        <div class="stat-value" id="statExpired">0</div>
-        <div class="stat-label">Expired</div>
-      </div>
-    </div>
-
-    <div class="history-title">Recent Keys</div>
-    <div class="history-list" id="historyList">
-      <div style="text-align: center; color: var(--text-secondary); font-size: 0.8rem; padding: 20px; opacity: 0.5;">
-        No keys generated yet
-      </div>
-    </div>
-  </main>
+  </div>
 
   <div class="toast" id="toast"></div>
 
   <script>
     (function() {
-      // --- Encrypted Key Pool (100 keys) ---
-      // Each encrypted with unique salt "lqXXX" and shift (idx % 12) + 2
+      // Configuration
+      const LINKVERTISE_URL = "https://link-target.net/4061527/7unSCoaM861q";
+      const GATE_KEY = "lq_gate_unlocked";
+      const STATUS_KEY = "lq_key_statuses";
+
+      // Encrypted key pool (100 keys, each with unique salt and shift)
       const encryptedKeys = [
         "XDsNeFZlEjEJSHQhWkl+BCUfYl8LHDYfREcgBgQDHwoMW0dDGgI=",
         "TGgbJkR/Xhs8SwhHJlhMZEpII05sChYwH0VIIQcGBCALDVtIRBsD",
@@ -766,11 +498,11 @@
         "e0okEWVaexooXH1hJV5hf0gsHGRbdAYsI0RIIggEByAMDl9LRBwE",
         "fEgqGmtggwYlXX1hRGBWaVcuJG5YZQsuI0VJIwkGCCEND19MRR0F",
         "ZksuCmdefiAmSoNeKlpTbEk6IWtZaBswH0ZKJAoMCSIOEGNNRh4G",
-        "a1kwJnZaZw0wTm1PK1xjhEhEDoZmgCYyH0dLJQsOCiMPEWNORx8H",
+        "a1kwJnZaZw0wTm1PK1xjhEhEDoZmgCYyH0dLJQsOCiMPEWNORx8H"
       ];
 
-      // --- Decryption Logic ---
-      function decryptKey(enc, idx) {
+      // Decrypt function
+      function decrypt(enc, idx) {
         const salt = "lq" + String(idx).padStart(3, "0");
         const shift = (idx % 12) + 2;
         try {
@@ -785,232 +517,182 @@
             result += String.fromCharCode(unshifted.charCodeAt(i) ^ salt.charCodeAt(i % salt.length));
           }
           return result;
-        } catch(e) {
-          return "decrypt-error";
-        }
+        } catch(e) { return "error"; }
       }
 
-      // Decrypt all on init
-      const keyPool = encryptedKeys.map((enc, i) => decryptKey(enc, i));
-
-      // --- State ---
+      // State
       let currentKey = null;
-      let currentIdx = -1;
-      let isChecking = false;
+      let keyUsed = false;
+      let statuses = JSON.parse(localStorage.getItem(STATUS_KEY) || "{}");
 
-      // Load persisted data
-      const STATUS_KEY = "liquify_statuses_v1";
-      const HISTORY_KEY = "liquify_history_v1";
-      let statuses = {};
-      let history = [];
-      try {
-        statuses = JSON.parse(localStorage.getItem(STATUS_KEY)) || {};
-        history = JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
-      } catch(e) {}
-
-      // --- DOM refs ---
+      // DOM refs
+      const gateStatus = document.getElementById("gateStatus");
+      const gateActions = document.getElementById("gateActions");
+      const keyActions = document.getElementById("keyActions");
       const keyDisplay = document.getElementById("keyDisplay");
-      const keyGlow = document.getElementById("keyGlow");
+      const keyBox = document.getElementById("keyBox");
       const generateBtn = document.getElementById("generateBtn");
       const copyBtn = document.getElementById("copyBtn");
       const checkBtn = document.getElementById("checkBtn");
       const statusBadge = document.getElementById("statusBadge");
       const statusText = document.getElementById("statusText");
-      const historyList = document.getElementById("historyList");
       const toast = document.getElementById("toast");
-      const statTotal = document.getElementById("statTotal");
-      const statWorking = document.getElementById("statWorking");
-      const statExpired = document.getElementById("statExpired");
 
-      // --- Helpers ---
+      // Check gate state
+      function isGateOpen() {
+        return localStorage.getItem(GATE_KEY) === "1";
+      }
+
+      function openGate() {
+        localStorage.setItem(GATE_KEY, "1");
+      }
+
+      function closeGate() {
+        localStorage.removeItem(GATE_KEY);
+      }
+
+      function updateUI() {
+        if (isGateOpen()) {
+          gateStatus.className = "gate-status unlocked";
+          gateStatus.innerHTML = "<span>Gate Open</span><div class='gate-dot'></div>";
+          gateActions.style.display = "none";
+          keyActions.style.display = "flex";
+          if (keyUsed) {
+            generateBtn.disabled = true;
+            generateBtn.textContent = "Key Generated";
+            keyDisplay.textContent = "Renew gate to generate another key";
+            keyDisplay.className = "placeholder";
+            keyBox.classList.remove("active");
+          } else {
+            generateBtn.disabled = false;
+            generateBtn.textContent = "Generate Key";
+          }
+        } else {
+          gateStatus.className = "gate-status locked";
+          gateStatus.innerHTML = "<span>Gate Required</span><div class='gate-dot'></div>";
+          gateActions.style.display = "flex";
+          keyActions.style.display = "none";
+          keyUsed = false;
+        }
+      }
+
+      // Toast
       function showToast(msg) {
         toast.textContent = msg;
         toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 2200);
+        setTimeout(() => toast.classList.remove("show"), 2000);
       }
 
-      function getKeyHash(str) {
-        let h = 0;
-        for (let i = 0; i < str.length; i++) {
-          h = ((h << 5) - h) + str.charCodeAt(i);
-          h |= 0;
-        }
-        return Math.abs(h);
-      }
-
-      function getKeyStatus(key) {
-        if (statuses[key]) return statuses[key];
-        // Deterministic pseudo-check for realism
-        const hash = getKeyHash(key);
-        const mod = hash % 3;
-        if (mod === 0) return "working";
-        if (mod === 1) return "expired";
-        return "unknown";
-      }
-
-      function saveData() {
-        localStorage.setItem(STATUS_KEY, JSON.stringify(statuses));
-        localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, 50)));
-      }
-
-      function formatTime(ts) {
-        const d = new Date(ts);
-        return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
-      }
-
-      function updateStats() {
-        const total = history.length;
-        const working = history.filter(h => h.status === "working").length;
-        const expired = history.filter(h => h.status === "expired").length;
-        statTotal.textContent = total;
-        statWorking.textContent = working;
-        statExpired.textContent = expired;
-      }
-
-      function updateStatusUI(status, animate = true) {
-        statusBadge.className = "status-badge " + status;
-        if (animate) {
-          statusBadge.classList.remove("show");
-          void statusBadge.offsetWidth; // reflow
-        }
-        statusBadge.classList.add("show");
-        
-        const labels = {
-          working: "Working",
-          expired: "Not Working",
-          unknown: "Unknown"
-        };
-        statusText.textContent = labels[status] || "Ready";
-
-        keyGlow.className = "key-glow " + status;
-        keyGlow.classList.add("active");
-      }
-
-      function renderHistory() {
-        if (history.length === 0) {
-          historyList.innerHTML = `<div style="text-align:center;color:var(--text-secondary);font-size:0.8rem;padding:20px;opacity:0.5;">No keys generated yet</div>`;
-          return;
-        }
-        historyList.innerHTML = "";
-        history.slice(0, 20).forEach(item => {
-          const div = document.createElement("div");
-          div.className = "history-item";
-          div.innerHTML = `
-            <div class="history-key">${item.key}</div>
-            <div class="history-meta">
-              <span class="history-time">${formatTime(item.time)}</span>
-              <div class="history-status ${item.status}"></div>
-            </div>
-          `;
-          historyList.appendChild(div);
-        });
-      }
-
-      function addToHistory(key, status) {
-        // Remove if already exists to avoid dupes at top
-        history = history.filter(h => h.key !== key);
-        history.unshift({ key, status, time: Date.now() });
-        saveData();
-        renderHistory();
-        updateStats();
-      }
-
-      // --- Actions ---
+      // Generate key
       function generateKey() {
-        // Pick random index
-        const idx = Math.floor(Math.random() * keyPool.length);
-        currentKey = keyPool[idx];
-        currentIdx = idx;
-
-        // Animate text scramble
-        const finalText = currentKey;
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-";
-        let iterations = 0;
-        const maxIterations = 12;
+        if (!isGateOpen() || keyUsed) return;
         
+        const idx = Math.floor(Math.random() * encryptedKeys.length);
+        currentKey = decrypt(encryptedKeys[idx], idx);
+        
+        // Scramble animation
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-";
+        let iter = 0;
         keyDisplay.classList.remove("placeholder");
-        keyDisplay.style.opacity = "0.8";
+        keyBox.classList.add("active");
         
         const interval = setInterval(() => {
-          keyDisplay.textContent = finalText.split("").map((char, i) => {
-            if (i < iterations) return finalText[i];
-            return chars[Math.floor(Math.random() * chars.length)];
+          keyDisplay.textContent = currentKey.split("").map((c, i) => {
+            return i < iter ? c : chars[Math.floor(Math.random() * chars.length)];
           }).join("");
-          
-          iterations += 1;
-          if (iterations > finalText.length) {
+          iter += 2;
+          if (iter >= currentKey.length) {
             clearInterval(interval);
-            keyDisplay.textContent = finalText;
-            keyDisplay.style.opacity = "1";
+            keyDisplay.textContent = currentKey;
           }
-        }, 25);
+        }, 20);
 
-        // Reset status
-        const existingStatus = statuses[currentKey];
-        if (existingStatus) {
-          updateStatusUI(existingStatus);
-        } else {
-          statusBadge.classList.remove("show");
-          keyGlow.classList.remove("active");
-          statusText.textContent = "Ready";
-        }
-
+        keyUsed = true;
         copyBtn.disabled = false;
         checkBtn.disabled = false;
+        statusBadge.classList.remove("show");
+        updateUI();
+        showToast("Key generated");
       }
 
+      // Copy
       function copyKey() {
         if (!currentKey) return;
         navigator.clipboard.writeText(currentKey).then(() => {
-          showToast("Key copied to clipboard");
+          showToast("Copied to clipboard");
         }).catch(() => {
-          // Fallback
           const ta = document.createElement("textarea");
           ta.value = currentKey;
           document.body.appendChild(ta);
           ta.select();
           document.execCommand("copy");
           document.body.removeChild(ta);
-          showToast("Key copied to clipboard");
+          showToast("Copied to clipboard");
         });
       }
 
+      // Check status
       function checkStatus() {
-        if (!currentKey || isChecking) return;
-        isChecking = true;
+        if (!currentKey) return;
         checkBtn.disabled = true;
-        const originalText = checkBtn.innerHTML;
-        checkBtn.innerHTML = `<span class="spinner"></span>Checking...`;
-
-        // Simulate network delay
+        checkBtn.innerHTML = "<span class='spinner'></span>Checking...";
+        
         setTimeout(() => {
-          const status = getKeyStatus(currentKey);
+          const hash = currentKey.split("").reduce((a, c) => ((a << 5) - a + c.charCodeAt(0)) | 0, 0);
+          const mod = Math.abs(hash) % 3;
+          const status = mod === 0 ? "working" : mod === 1 ? "expired" : "unknown";
+          
           statuses[currentKey] = status;
-          saveData();
-          updateStatusUI(status);
-          addToHistory(currentKey, status);
+          localStorage.setItem(STATUS_KEY, JSON.stringify(statuses));
           
-          checkBtn.innerHTML = originalText;
+          statusBadge.className = "status-badge " + status;
+          statusText.textContent = status === "working" ? "Working" : status === "expired" ? "Not Working" : "Unknown";
+          statusBadge.classList.add("show");
+          
+          checkBtn.innerHTML = "Check";
           checkBtn.disabled = false;
-          isChecking = false;
           
-          const msgs = {
-            working: "Key verified: Working",
-            expired: "Key check failed: Not Working",
-            unknown: "Key status: Unknown"
-          };
+          const msgs = { working: "Status: Working", expired: "Status: Not Working", unknown: "Status: Unknown" };
           showToast(msgs[status]);
-        }, 1200 + Math.random() * 800);
+        }, 800);
       }
 
-      // --- Events ---
+      // Go to gate
+      function goToGate() {
+        // Set a flag to auto-open on return
+        sessionStorage.setItem("lq_returning", "1");
+        window.location.href = LINKVERTISE_URL;
+      }
+
+      // Renew gate
+      function renewGate() {
+        closeGate();
+        keyUsed = false;
+        currentKey = null;
+        copyBtn.disabled = true;
+        checkBtn.disabled = true;
+        statusBadge.classList.remove("show");
+        updateUI();
+        showToast("Gate closed — redirecting...");
+        setTimeout(goToGate, 800);
+      }
+
+      // Check if returning from Linkvertise
+      if (sessionStorage.getItem("lq_returning") === "1") {
+        sessionStorage.removeItem("lq_returning");
+        openGate();
+        showToast("Gate completed");
+      }
+
+      // Event listeners
+      document.getElementById("goToGateBtn").addEventListener("click", goToGate);
+      document.getElementById("renewBtn").addEventListener("click", renewGate);
       generateBtn.addEventListener("click", generateKey);
       copyBtn.addEventListener("click", copyKey);
       checkBtn.addEventListener("click", checkStatus);
 
-      // --- Init ---
-      renderHistory();
-      updateStats();
+      // Init
+      updateUI();
     })();
   </script>
 </body>
